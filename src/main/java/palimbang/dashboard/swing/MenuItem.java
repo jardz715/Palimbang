@@ -1,6 +1,6 @@
-package galingpook.dashboard.swing;
+package palimbang.dashboard.swing;
 
-import galingpook.dashboard.model.Model_Menu;
+import palimbang.dashboard.model.Model_Menu;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;

@@ -60,7 +60,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="galingpook.dashboard.swing.panelBorder" name="panelBorder1">
+    <Container class="palimbang.dashboard.swing.panelBorder" name="panelBorder1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -136,7 +136,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
         </Container>
-        <Component class="galingpook.dashboard.component.Menu_Employee" name="menu_Employee">
+        <Component class="palimbang.dashboard.component.Menu_Employee" name="menu_Employee">
         </Component>
         <Component class="javax.swing.JToggleButton" name="timeOut">
           <Properties>

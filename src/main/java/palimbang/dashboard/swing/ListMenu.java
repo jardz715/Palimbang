@@ -1,7 +1,7 @@
-package galingpook.dashboard.swing;
+package palimbang.dashboard.swing;
 
-import galingpook.dashboard.event.EventMenuSelected;
-import galingpook.dashboard.model.Model_Menu;
+import palimbang.dashboard.event.EventMenuSelected;
+import palimbang.dashboard.model.Model_Menu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

@@ -1,7 +1,7 @@
-package galingpook.dashboard.main;
+package palimbang.dashboard.main;
 
-import galingpook.dashboard.event.EventMenuSelected;
-import galingpook.dashboard.form.Form_Home;
+import palimbang.dashboard.event.EventMenuSelected;
+import palimbang.dashboard.form.Form_Home;
 import java.awt.Color;
 import javax.swing.JComponent;
 
@@ -34,10 +34,10 @@ public class Main_Admin extends javax.swing.JFrame {
     private void initComponents() {
 
         jFrame1 = new javax.swing.JFrame();
-        panelBorder1 = new galingpook.dashboard.swing.panelBorder();
+        panelBorder1 = new palimbang.dashboard.swing.panelBorder();
         jLabel1 = new javax.swing.JLabel();
         mainPanel = new javax.swing.JPanel();
-        menu_Admin = new galingpook.dashboard.component.Menu_Admin();
+        menu_Admin = new palimbang.dashboard.component.Menu_Admin();
 
         jFrame1.setLocation(new java.awt.Point(10, -5));
         jFrame1.setResizable(false);
@@ -151,7 +151,7 @@ public class Main_Admin extends javax.swing.JFrame {
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel mainPanel;
-    private galingpook.dashboard.component.Menu_Admin menu_Admin;
-    private galingpook.dashboard.swing.panelBorder panelBorder1;
+    private palimbang.dashboard.component.Menu_Admin menu_Admin;
+    private palimbang.dashboard.swing.panelBorder panelBorder1;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,7 +1,7 @@
-package galingpook.dashboard.main;
+package palimbang.dashboard.main;
 
-import galingpook.dashboard.event.EventMenuSelected;
-import galingpook.dashboard.form.Form_Home;
+import palimbang.dashboard.event.EventMenuSelected;
+import palimbang.dashboard.form.Form_Home;
 import java.awt.Color;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -37,10 +37,10 @@ public class Main_Employee extends javax.swing.JFrame {
     private void initComponents() {
 
         jFrame1 = new javax.swing.JFrame();
-        panelBorder1 = new galingpook.dashboard.swing.panelBorder();
+        panelBorder1 = new palimbang.dashboard.swing.panelBorder();
         jLabel1 = new javax.swing.JLabel();
         mainPanel = new javax.swing.JPanel();
-        menu_Employee = new galingpook.dashboard.component.Menu_Employee();
+        menu_Employee = new palimbang.dashboard.component.Menu_Employee();
         timeOut = new javax.swing.JToggleButton();
         timeIn = new javax.swing.JToggleButton();
 
@@ -124,7 +124,7 @@ public class Main_Employee extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(menu_Employee, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
+            .addComponent(menu_Employee, javax.swing.GroupLayout.PREFERRED_SIZE, 627, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -225,8 +225,8 @@ public class Main_Employee extends javax.swing.JFrame {
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel mainPanel;
-    private galingpook.dashboard.component.Menu_Employee menu_Employee;
-    private galingpook.dashboard.swing.panelBorder panelBorder1;
+    private palimbang.dashboard.component.Menu_Employee menu_Employee;
+    private palimbang.dashboard.swing.panelBorder panelBorder1;
     private javax.swing.JToggleButton timeIn;
     private javax.swing.JToggleButton timeOut;
     // End of variables declaration//GEN-END:variables

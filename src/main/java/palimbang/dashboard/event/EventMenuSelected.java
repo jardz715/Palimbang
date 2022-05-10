@@ -1,4 +1,4 @@
-package galingpook.dashboard.event;
+package palimbang.dashboard.event;
 
 public interface EventMenuSelected {
 

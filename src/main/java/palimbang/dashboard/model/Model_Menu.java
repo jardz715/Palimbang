@@ -1,4 +1,4 @@
-package galingpook.dashboard.model;
+package palimbang.dashboard.model;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;

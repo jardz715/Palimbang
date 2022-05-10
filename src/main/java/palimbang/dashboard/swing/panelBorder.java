@@ -1,4 +1,4 @@
-package galingpook.dashboard.swing;
+package palimbang.dashboard.swing;
 
 import java.awt.Color;
 import java.awt.Graphics;

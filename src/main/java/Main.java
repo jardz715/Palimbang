@@ -1,5 +1,5 @@
-import galingpook.dashboard.main.Main_Admin;
-import galingpook.dashboard.main.Main_Employee;
+import palimbang.dashboard.main.Main_Admin;
+import palimbang.dashboard.main.Main_Employee;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
