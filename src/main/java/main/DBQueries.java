@@ -11,6 +11,7 @@ import java.util.List;
 
 public class DBQueries {
 	
+    // Select from table without WHERE clause
 	private ResultSet selectFromTable(Connection conn, String selectFF, String table) {
 		if(selectFF == null  || table == null)
 			return null;
