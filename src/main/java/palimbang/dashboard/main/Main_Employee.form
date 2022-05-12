@@ -150,6 +150,7 @@
           </Properties>
           <Events>
             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="timeOutMouseReleased"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="timeOutActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JToggleButton" name="timeIn">
@@ -164,6 +165,7 @@
           </Properties>
           <Events>
             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="timeInMouseReleased"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="timeInActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

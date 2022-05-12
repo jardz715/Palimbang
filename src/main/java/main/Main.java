@@ -1,3 +1,5 @@
+package main;
+
 import palimbang.dashboard.main.Main_Admin;
 import palimbang.dashboard.main.Main_Employee;
 import java.sql.Connection;
@@ -22,7 +24,7 @@ public class Main extends javax.swing.JFrame{
     int xMouse = 0, yMouse = 0;
     DBConnect dc = new DBConnect();
     Connection conn = dc.dbCheck();
-    final String TABLE_NAME = "UserTestTable";
+    final String TABLE_NAME = "UserTable";
     
     //Method to check if username or password field is empty (after getting input from the fields
     protected boolean isEmpty(String x, String y){
@@ -56,10 +58,10 @@ public class Main extends javax.swing.JFrame{
         }
         
         // Checks DB to see if password matches username
-        ResultSet rs = query.getRows(conn, "*", TABLE_NAME, "userN = '" + user + "'");
+        ResultSet rs = query.getRow(conn, "*", TABLE_NAME, "username = '" + user + "'");
         try {
             if(rs.next() != false) {
-                if(rs.getString("userN").equals(user) && rs.getString("passW").equals(pass)){
+                if(rs.getString("username").equals(user) && rs.getString("userPass").equals(pass)){
                     passCheck = true;
                 }
                 else{
@@ -90,11 +92,11 @@ public class Main extends javax.swing.JFrame{
         DBQueries query = new DBQueries();
         int admStatus = 0;
         boolean isAdmin = false;
-        String queryStmt = String.format("userN = '%s' AND passW = '%s'", user, pass);
-        ResultSet rs = query.getRows(conn, "admin", TABLE_NAME, queryStmt);
+        String queryStmt = String.format("username = '%s' AND userPass = '%s'", user, pass);
+        ResultSet rs = query.getRow(conn, "userIsAdmin", TABLE_NAME, queryStmt);
         try {
             while(rs.next()){
-                admStatus = rs.getInt("admin");
+                admStatus = rs.getInt("userIsAdmin");
             }
             
             if(admStatus == 1){
@@ -397,9 +399,17 @@ public class Main extends javax.swing.JFrame{
                 else{
                     // proceed to employee dashboard
                     this.dispose();
-                    Main_Employee me = new Main_Employee();
-                    me.setVisible(true);
-                    me.setLocationRelativeTo(null);
+                    DBQueries query = new DBQueries();
+                    ResultSet rs = query.getRow(conn, "userID", TABLE_NAME, "username = '" + un + "'");
+                    try{
+                        int ID = rs.getInt("userID");
+                        Main_Employee me = new Main_Employee(conn, ID);
+                        me.setVisible(true);
+                     me.setLocationRelativeTo(null);
+                    }catch(SQLException e){
+                        e.printStackTrace();
+                    }
+                    
                 }
             }
             else{

@@ -3,14 +3,20 @@ package palimbang.dashboard.main;
 import palimbang.dashboard.event.EventMenuSelected;
 import palimbang.dashboard.form.Form_Home;
 import java.awt.Color;
+import java.sql.Connection;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import main.TimeInTimeOut;
 
 public class Main_Employee extends javax.swing.JFrame {
     
     private boolean TimeIn, TimeOut;
+    int userid;
+    Connection conn;
     
-    public Main_Employee() {
+    public Main_Employee(Connection temp, int ID){
+        userid = ID;
+        conn = temp;
         initComponents();
         setBackground(new Color(0,0,0,0));
         jFrame1.setLocationRelativeTo(null);
@@ -79,6 +85,11 @@ public class Main_Employee extends javax.swing.JFrame {
                 timeOutMouseReleased(evt);
             }
         });
+        timeOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                timeOutActionPerformed(evt);
+            }
+        });
 
         timeIn.setBackground(new java.awt.Color(29, 122, 116));
         timeIn.setForeground(new java.awt.Color(255, 255, 255));
@@ -86,6 +97,11 @@ public class Main_Employee extends javax.swing.JFrame {
         timeIn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 timeInMouseReleased(evt);
+            }
+        });
+        timeIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                timeInActionPerformed(evt);
             }
         });
 
@@ -124,7 +140,7 @@ public class Main_Employee extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(menu_Employee, javax.swing.GroupLayout.PREFERRED_SIZE, 627, Short.MAX_VALUE)
+            .addComponent(menu_Employee, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -143,83 +159,51 @@ public class Main_Employee extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void timeInMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_timeInMouseReleased
-        if(TimeIn== false) {
-            timeIn.setSelected(false);
-            int response = JOptionPane.showConfirmDialog(rootPane,
-							    "Are you sure you want to time in now?",
-							    "",
-							    JOptionPane.OK_CANCEL_OPTION,
-							    JOptionPane.QUESTION_MESSAGE);
-			if(response == 0)
-			{
-                            timeIn.setSelected(true);
-                            TimeIn = true;
-			}
-        }
-        else
-            timeIn.setSelected(true);
+//        if(TimeIn== false) {
+//            timeIn.setSelected(false);
+//            
+//        }
+//        else
+//            timeIn.setSelected(true);
+
     }//GEN-LAST:event_timeInMouseReleased
 
     private void timeOutMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_timeOutMouseReleased
-        if(TimeOut== false) {
-            timeOut.setSelected(false);
-            int response = JOptionPane.showConfirmDialog(rootPane,
-							    "Are you sure you want to time out now?",
-							    "",
-							    JOptionPane.OK_CANCEL_OPTION,
-							    JOptionPane.QUESTION_MESSAGE);
-			if(response == 0)
-			{
-                            timeOut.setSelected(true);
-                            TimeOut = true;
-			}
-        }
-        else
-            timeOut.setSelected(true);
+//        if(TimeOut== false) {
+//            timeOut.setSelected(false);
+//            
+//        }
+//        else
+//            timeOut.setSelected(true);
     }//GEN-LAST:event_timeOutMouseReleased
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main_Employee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main_Employee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main_Employee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main_Employee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+    private void timeInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timeInActionPerformed
+        int response = JOptionPane.showConfirmDialog(rootPane,
+            "Are you sure you want to time in now?",
+            "",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE);
+        if(response == 0){
+            TimeInTimeOut t = new TimeInTimeOut();  
+            t.timeIn(conn, userid);
+            timeIn.setSelected(true);
+            TimeIn = true;
+	}
+    }//GEN-LAST:event_timeInActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Main_Employee().setVisible(true);
-                
-            }
-        });
-    }
+    private void timeOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timeOutActionPerformed
+        int response = JOptionPane.showConfirmDialog(rootPane,
+            "Are you sure you want to time out now?",
+            "",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE);
+        if(response == 0){
+            TimeInTimeOut t = new TimeInTimeOut();   
+            t.timeOut(conn, userid);
+            timeOut.setSelected(true);
+            TimeOut = true;
+        }
+    }//GEN-LAST:event_timeOutActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame jFrame1;

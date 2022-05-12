@@ -1,3 +1,5 @@
+package main;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,7 +33,7 @@ public class regEmployee extends javax.swing.JFrame {
     int xMouse = 0, yMouse = 0;
     DBConnect dc = new DBConnect();
     Connection conn = dc.dbCheck();
-    final String TABLE_NAME = "UserTestTable";
+    final String TABLE_NAME = "UserTable";
     String gender = "";
     
     // Method to check if any field on the register form is empty
@@ -518,52 +520,43 @@ public class regEmployee extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(null, "For security purposes, Both Password fields and both E-Mail fields must have the same input data.", "Error", JOptionPane.INFORMATION_MESSAGE);   
                         }
                         else{
-                            if(!query.isStrUnique(conn, uname, "userN", TABLE_NAME)){
+                            if(!query.isStrUnique(conn, uname, "username", TABLE_NAME)){
                                 JOptionPane.showMessageDialog(null, "Username is already used. Please enter a different username.", "Error", JOptionPane.INFORMATION_MESSAGE);
+                            // added email as unique. cannot have the same email. 
+                            }else if(!query.isStrUnique(conn, email, "userEmail", TABLE_NAME)){
+                                JOptionPane.showMessageDialog(null, "Email is already used. Please enter a different email.", "Error", JOptionPane.INFORMATION_MESSAGE);
                             }else{
                                 //START INSERTING INTO DB
                                 List<String> regList = new ArrayList<String>();
 
-                                // Retrives Latest User ID from database
-                                String queryStmt = String.format("id = (SELECT MAX(id) FROM %s);", TABLE_NAME);
-    //                            System.out.println(queryStmt);
+                                // sqlite auto-increments int primary keys. 
+                                // regList.add(Integer.toString(userID += 1)); //Registers the ID of latest entry but increments it for next entry new entry has unique ID 
+                                regList.add(uname);
+                                regList.add(pword);
+                                regList.add(fname);
+                                regList.add(mname);
+                                regList.add(lname);
+                                regList.add(Integer.toString(age));
+                                regList.add(email);
+                                regList.add(pnum);
+                                regList.add(gender);
+                                query.registerUser(conn, regList);
 
-                                ResultSet rs = query.getRows(conn, "id", TABLE_NAME, queryStmt);
-                                try {
-                                    while(rs.next()){
-                                        userID = rs.getInt("id");
-                                    }
+                                // After successfully registering, reset all inputs of register form
+                                JOptionPane.showMessageDialog(null, "Registered Successfully.", "Alert", JOptionPane.INFORMATION_MESSAGE);
+                                userField.setText("");
+                                passField.setText("");
+                                passField2.setText("");
+                                fNameField.setText("");
+                                mNameField.setText("");
+                                lNameField.setText("");
+                                bday.setCalendar(null);
+                                emailField.setText("");
+                                emailField2.setText("");
+                                numField.setText("");
+                                maleBox.setSelected(false);
+                                femaleBox.setSelected(false);
 
-                                    regList.add(Integer.toString(userID += 1)); //Registers the ID of latest entry but increments it for next entry new entry has unique ID 
-                                    regList.add(uname);
-                                    regList.add(pword);
-                                    regList.add(fname);
-                                    regList.add(mname);
-                                    regList.add(lname);
-                                    regList.add(Integer.toString(age));
-                                    regList.add(email);
-                                    regList.add(pnum);
-                                    regList.add(gender);
-                                    query.registerUser(conn, regList);
-
-                                    // After successfully registering, reset all inputs of register form
-                                    JOptionPane.showMessageDialog(null, "Registered Successfully.", "Alert", JOptionPane.INFORMATION_MESSAGE);
-                                    userField.setText("");
-                                    passField.setText("");
-                                    passField2.setText("");
-                                    fNameField.setText("");
-                                    mNameField.setText("");
-                                    lNameField.setText("");
-                                    bday.setCalendar(null);
-                                    emailField.setText("");
-                                    emailField2.setText("");
-                                    numField.setText("");
-                                    maleBox.setSelected(false);
-                                    femaleBox.setSelected(false);
-
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(regEmployee.class.getName()).log(Level.SEVERE, null, ex);
-                                }
 
                             }
                         }

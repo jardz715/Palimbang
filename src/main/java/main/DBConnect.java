@@ -1,4 +1,4 @@
-
+package main;
 // 4 SQL method imports + io.File for checking if DB Exists
 import java.io.File;
 import java.sql.Connection;
@@ -8,7 +8,6 @@ import org.sqlite.SQLiteDataSource;
 
 public class DBConnect {
         
-        final String TABLE_NAME = "UserTestTable";
 	public Connection dbCheck() throws SQLException{
 		
 		// Initialize DB path
@@ -24,7 +23,7 @@ public class DBConnect {
 
 		        //Add methods for creating all tables here. Preferably a different class for recycling purposes
 		        DBQueries query = new DBQueries();
-		        query.createUserTable(ds.getConnection(), TABLE_NAME);
+		        query.createTables(ds.getConnection());
 		        
 		        return ds.getConnection();
 		    } catch ( Exception e ) {
