@@ -60,8 +60,8 @@ public class Menu_Employee extends javax.swing.JPanel implements Runnable{
     }
 
     private void init() {
-        listMenu1.addItem(new Model_Menu("1", "Sample Text", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("2", "Sample Text", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("1", "Profile", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("2", "Time Log", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("3", "Sample Text", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("4", "Sample Text", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("5", "Sample Text", Model_Menu.MenuType.MENU));

@@ -3,7 +3,6 @@ package main;
 import palimbang.dashboard.main.Main_Admin;
 import palimbang.dashboard.main.Main_Employee;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -18,7 +17,7 @@ import javax.swing.JOptionPane;
 public class Main extends javax.swing.JFrame{
 
     public Main() throws SQLException {
-        initComponents();   
+        initComponents();
     }
     
     int xMouse = 0, yMouse = 0;
@@ -386,30 +385,35 @@ public class Main extends javax.swing.JFrame{
         else{
             if(checker(conn, un, pw)){
                 System.out.println("Login Success!");
+                DBQueries query = new DBQueries();
+                ResultSet rs = query.getRow(conn, "userID", TABLE_NAME, "username = '" + un + "'");
+                int ID;
                 //If statement to redirect to admin dashboard when adm in DB is set to 1
                 // and redirect to employee dashboard when adm in DB is set to 0
-                //System.out.println(isAdmin(conn, un, pw));
+                
                 if(isAdmin(conn, un, pw)){
                     // proceed to admin dashboard
                     this.dispose();
-                    Main_Admin ma = new Main_Admin();
-                    ma.setVisible(true);
-                    ma.setLocationRelativeTo(null);
+                    try {
+                        ID = rs.getInt("userID");
+                        Main_Admin ma = new Main_Admin(conn, ID);
+                        ma.setVisible(true);
+                        ma.setLocationRelativeTo(null);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 else{
                     // proceed to employee dashboard
                     this.dispose();
-                    DBQueries query = new DBQueries();
-                    ResultSet rs = query.getRow(conn, "userID", TABLE_NAME, "username = '" + un + "'");
                     try{
-                        int ID = rs.getInt("userID");
+                        ID = rs.getInt("userID");
                         Main_Employee me = new Main_Employee(conn, ID);
                         me.setVisible(true);
-                     me.setLocationRelativeTo(null);
+                        me.setLocationRelativeTo(null);
                     }catch(SQLException e){
                         e.printStackTrace();
-                    }
-                    
+                    }                 
                 }
             }
             else{

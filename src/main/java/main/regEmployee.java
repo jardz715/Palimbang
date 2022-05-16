@@ -101,8 +101,6 @@ public class regEmployee extends javax.swing.JFrame {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         LocalDateTime now = LocalDateTime.now();  
         currDate = dtf.format(now);
-//        System.out.println("Birthday: " + bDate);
-//        System.out.println("Curr date: " + currDate);
         
         Date birthDate = dateFormat.parse(bDate);
         Instant instant = birthDate.toInstant();
@@ -115,7 +113,6 @@ public class regEmployee extends javax.swing.JFrame {
         LocalDate givenDate2 = zone2.toLocalDate();
         
         Period period = Period.between(givenDate, givenDate2);
-//        System.out.println("Years: " + period.getYears());
         return period.getYears();
     }
     
@@ -512,7 +509,7 @@ public class regEmployee extends javax.swing.JFrame {
                 email2 = emailField2.getText();
                 pnum = numField.getText();
                 
-                // If all pf the fields are entered and gender is selected, proceed.
+                // If all of the fields are entered and gender is selected, proceed.
                 if(!isFieldEmpty(uname, pword, pword2, fname, mname, lname, email, email2, pnum, gender) && !isGenderEmpty()){
                     if(isUnameValid(uname)){
                         // If both password fields and both email fields are identical, proceed, if not, show error message. 

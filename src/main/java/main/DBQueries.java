@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DBQueries {
 	
@@ -46,6 +48,11 @@ public class DBQueries {
 	                   " userIsAdmin BOOLEAN, " +
 	                   " userIn text CHECK (userIn IS time(userIn))," +
 	                   " userOut text CHECK (userOut IS time(userOut))," +
+                           " userAdd VARCHAR(255), " +
+                           " userStatus VARCHAR(255), " +
+                           " userAppDate DATE, " + //Placeholder until admin can actually set the date from their dashboard
+                           " userNat VARCHAR(255), " +
+                           " userPos VARCHAR (255) " +
 	                   " PRIMARY KEY ( userID ))"; 
 			stmt.executeUpdate(sql);
 	         
@@ -93,7 +100,7 @@ public class DBQueries {
 	}
 	
 	// will change the functionality. probably for email validation. should be boolean. Can be reused for password validation as well.
-	protected boolean isStrUnique(Connection conn, String str, String column, String table) {
+	public boolean isStrUnique(Connection conn, String str, String column, String table) {
 		if(str == null  || column == null || table == null)
 			return false; // java prompt instead
 
@@ -111,7 +118,7 @@ public class DBQueries {
 		return true;
 	}
 	
-	protected ResultSet getRow(Connection conn, String selectFF, String table, String where) {
+	public ResultSet getRow(Connection conn, String selectFF, String table, String where) {
 		if(selectFF == null  || table == null || where == null)
 			return null;
 		
@@ -125,6 +132,17 @@ public class DBQueries {
         } 
 		return null;
 	}
+        
+        // create a method to update table row
+        public void updateRow(Connection conn, String table, String set, String where){
+            String sql = "UPDATE " + table + " SET " + set + " WHERE " + where;
+            try {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.executeUpdate(); 
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         
         protected void insertTimeIn(Connection conn, List<String> list) {
 		String sql = "INSERT INTO TimeTable (userID, timeIn, userIn, userOut) VALUES(?, datetime('now', 'localtime'),?,?)";

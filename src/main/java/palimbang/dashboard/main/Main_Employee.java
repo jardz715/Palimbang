@@ -1,12 +1,17 @@
 package palimbang.dashboard.main;
 
 import palimbang.dashboard.event.EventMenuSelected;
-import palimbang.dashboard.form.Form_Home;
 import java.awt.Color;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import main.Main;
 import main.TimeInTimeOut;
+import palimbang.dashboard.form.Form_Home;
+import palimbang.dashboard.form.Form_Profile_Emp;
 
 public class Main_Employee extends javax.swing.JFrame {
     
@@ -25,10 +30,41 @@ public class Main_Employee extends javax.swing.JFrame {
             @Override
             public void selected(int index) {
                 if (index == 0) {
+                    try {
+                        setForm(new Form_Profile_Emp(conn, userid));
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Main_Employee.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                else if (index == 1){
                     setForm(new Form_Home());
+                }
+                else if (index == 12){
+                    int response = JOptionPane.showConfirmDialog(rootPane,
+                    "Are you sure you want to log out?",
+                    "EXIT",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+                    if(response == 0)
+                    {
+                        dispose();
+                        try {
+                            conn.close(); //closes connection to avoid DB lock 
+                            Main m = new Main();
+                            m.setVisible(true);
+                            m.setLocationRelativeTo(null);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Main_Employee.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                 }
             }
         });
+        try {
+                setForm(new Form_Profile_Emp(conn, userid));
+            } catch (SQLException ex) {
+                Logger.getLogger(Main_Employee.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
     
     private void setForm(JComponent com) {
