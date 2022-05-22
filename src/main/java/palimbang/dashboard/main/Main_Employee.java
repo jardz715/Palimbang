@@ -10,7 +10,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import main.Main;
 import main.TimeInTimeOut;
-import palimbang.dashboard.form.Form_Home;
+import palimbang.dashboard.form.Form_Time_Emp;
 import palimbang.dashboard.form.Form_Profile_Emp;
 
 public class Main_Employee extends javax.swing.JFrame {
@@ -37,7 +37,11 @@ public class Main_Employee extends javax.swing.JFrame {
                     }
                 }
                 else if (index == 1){
-                    setForm(new Form_Home());
+                    try {
+                        setForm(new Form_Time_Emp(conn, userid));
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Main_Employee.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 else if (index == 12){
                     int response = JOptionPane.showConfirmDialog(rootPane,

@@ -11,6 +11,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import main.Main;
 import palimbang.dashboard.form.Form_Profile_Adm;
+import palimbang.dashboard.form.Form_Time_Adm;
 
 public class Main_Admin extends javax.swing.JFrame {
     
@@ -35,6 +36,13 @@ public class Main_Admin extends javax.swing.JFrame {
                     }
                 }
                 else if (index == 1){
+                    try {
+                        setForm(new Form_Time_Adm(conn, userid));
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Main_Employee.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                else if (index == 2){
                     setForm(new Form_Home());
                 }
                 else if (index == 12){
