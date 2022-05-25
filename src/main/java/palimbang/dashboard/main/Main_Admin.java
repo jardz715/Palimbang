@@ -4,19 +4,23 @@ import palimbang.dashboard.event.EventMenuSelected;
 import palimbang.dashboard.form.Form_Home;
 import java.awt.Color;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import main.Main;
+import palimbang.dashboard.form.Form_Employees_Admin;
 import palimbang.dashboard.form.Form_Profile_Adm;
+import palimbang.dashboard.form.Form_Reg_Adm;
 import palimbang.dashboard.form.Form_Time_Adm;
 
 public class Main_Admin extends javax.swing.JFrame {
     
     int userid;
     Connection conn;
+    final String TABLE_NAME = "UserTable";
     
     public Main_Admin(Connection temp, int ID) {
         userid = ID;
@@ -35,15 +39,26 @@ public class Main_Admin extends javax.swing.JFrame {
                         Logger.getLogger(Main_Employee.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                else if (index == 1){
+                else if (index == 1) {
+                    try {
+                        setForm(new Form_Employees_Admin(conn));
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                else if (index == 2){
+                    try {
+                        setForm(new Form_Reg_Adm(conn));
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Main_Employee.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                else if (index == 3){
                     try {
                         setForm(new Form_Time_Adm(conn, userid));
                     } catch (SQLException ex) {
                         Logger.getLogger(Main_Employee.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
-                else if (index == 2){
-                    setForm(new Form_Home());
                 }
                 else if (index == 12){
                     int response = JOptionPane.showConfirmDialog(rootPane,
@@ -66,10 +81,23 @@ public class Main_Admin extends javax.swing.JFrame {
                 }
             }
         });
+        //Default screen set to admin profile
         try {
             setForm(new Form_Profile_Adm(conn, userid));
         } catch (SQLException ex) {
             Logger.getLogger(Main_Employee.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        // Acc delete button only visible when admin is not main admin
+        delVisible(userid);
+    }
+    
+    private void delVisible(int uID){
+        if(uID != 0){
+            delButton.setVisible(true);
+        }
+        else{
+            delButton.setVisible(false);
         }
     }
     
@@ -89,6 +117,7 @@ public class Main_Admin extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         mainPanel = new javax.swing.JPanel();
         menu_Admin = new palimbang.dashboard.component.Menu_Admin();
+        delButton = new javax.swing.JButton();
 
         jFrame1.setLocation(new java.awt.Point(10, -5));
         jFrame1.setResizable(false);
@@ -117,6 +146,16 @@ public class Main_Admin extends javax.swing.JFrame {
         mainPanel.setBackground(new java.awt.Color(255, 255, 255));
         mainPanel.setLayout(new java.awt.BorderLayout());
 
+        delButton.setBackground(new java.awt.Color(29, 122, 116));
+        delButton.setForeground(new java.awt.Color(255, 255, 255));
+        delButton.setText("Deactivate Account");
+        delButton.setVisible(false);
+        delButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
         panelBorder1Layout.setHorizontalGroup(
@@ -125,11 +164,15 @@ public class Main_Admin extends javax.swing.JFrame {
                 .addComponent(menu_Admin, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 926, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelBorder1Layout.createSequentialGroup()
+                        .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 926, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(28, Short.MAX_VALUE))
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(delButton)
+                        .addGap(68, 68, 68))))
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,7 +181,9 @@ public class Main_Admin extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(panelBorder1Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(jLabel1)
+                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(delButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -159,8 +204,33 @@ public class Main_Admin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void delButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delButtonActionPerformed
+        // TODO add your handling code here:
+        int response = JOptionPane.showConfirmDialog(rootPane,
+                    "Are you sure you want to permanently delete this admin account?",
+                    "EXIT",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+                    if(response == 0)
+                    {
+                        try {
+                            String stmt = "DELETE FROM " + TABLE_NAME + " WHERE UserID = '" + userid + "'";
+                            PreparedStatement pstmt = conn.prepareStatement(stmt);
+                            pstmt.execute();
+                            dispose();
+                            conn.close(); //closes connection to avoid DB lock 
+                            Main m = new Main();
+                            m.setVisible(true);
+                            m.setLocationRelativeTo(null);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+    }//GEN-LAST:event_delButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton delButton;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel mainPanel;

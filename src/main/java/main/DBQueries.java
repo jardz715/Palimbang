@@ -50,7 +50,7 @@ public class DBQueries {
 	                   " userOut text CHECK (userOut IS time(userOut))," +
                            " userAdd VARCHAR(255), " +
                            " userStatus VARCHAR(255), " +
-                           " userAppDate DATE, " + //Placeholder until admin can actually set the date from their dashboard
+                           " userAppDate VARCHAR(255) " + //Placeholder until admin can actually set the date from their dashboard
                            " userNat VARCHAR(255), " +
                            " userPos VARCHAR (255) " +
 	                   " PRIMARY KEY ( userID ))"; 
@@ -99,6 +99,21 @@ public class DBQueries {
         }
 	}
 	
+        // Registers admin accounts to database
+	public void registerAdmin(Connection conn, List<String> list) {
+		String sql = "INSERT INTO UserTable(username, userPass, userFirstN, userMiddleN, userLastN, userEmail, userContact, userIsAdmin, userPos) VALUES(?,?,?,?,?,?,?,1,'Admin')";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+            for (int i = 0; i < list.size(); i++) {
+            	pstmt.setString(i+1, list.get(i));
+			}
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+        	//System.out.println("If you see this, wrong format on time in or time out. but on swing easy fix");
+                e.printStackTrace();
+        }
+	}
+        
 	// will change the functionality. probably for email validation. should be boolean. Can be reused for password validation as well.
 	public boolean isStrUnique(Connection conn, String str, String column, String table) {
 		if(str == null  || column == null || table == null)

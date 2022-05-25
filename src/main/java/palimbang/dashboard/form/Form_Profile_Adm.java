@@ -13,10 +13,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import main.DBQueries;
 
-/**
- *
- * @author Brandon
- */
 public class Form_Profile_Adm extends javax.swing.JPanel {
 
     Connection conn;

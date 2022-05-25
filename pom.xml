@@ -16,6 +16,26 @@
                 <artifactId>sqlite-jdbc</artifactId>
                 <version>3.20.1</version>
         </dependency>
+        <dependency>
+            <groupId>group.id</groupId>
+            <artifactId>miglayout-4.0</artifactId>
+            <version>1</version>
+        </dependency>
+        <dependency>
+            <groupId>group.id</groupId>
+            <artifactId>rs2xml</artifactId>
+            <version>1</version>
+        </dependency>
+        <dependency>
+            <groupId>group.id</groupId>
+            <artifactId>table-custom</artifactId>
+            <version>1</version>
+        </dependency>
+        <dependency>
+            <groupId>group.id</groupId>
+            <artifactId>TimingFramework-0.55</artifactId>
+            <version>1</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

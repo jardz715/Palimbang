@@ -13,10 +13,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import main.DBQueries;
 
-/**
- *
- * @author Brandon
- */
 public class Form_Profile_Emp extends javax.swing.JPanel {
 
     Connection conn;
@@ -74,7 +70,7 @@ public class Form_Profile_Emp extends javax.swing.JPanel {
                 emailField.setText(rs.getString("userEmail"));
                 addField.setText(rs.getString("userAdd"));
                 numField.setText(rs.getString("userContact"));
-                appDateField.setText(String.valueOf(rs.getDate("userAppDate")));
+                appDateField.setText(rs.getString("userAppDate"));
                 statusField.setText(rs.getString("userStatus"));
                 natField.setText(rs.getString("userNat"));
                 posField.setText(rs.getString("userPos"));
