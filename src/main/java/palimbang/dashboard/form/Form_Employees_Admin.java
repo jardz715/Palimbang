@@ -120,11 +120,12 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         table1 = new palimbang.dashboard.swing.Table();
         userEdit = new javax.swing.JButton();
-        myTextField1 = new swing.MyTextField();
         userField = new palimbang.dashboard.swing.MyTextFieldAdmin();
         userFilter = new javax.swing.JButton();
         filterField = new palimbang.dashboard.swing.MyTextFieldAdmin();
         resetTable = new javax.swing.JButton();
+        userDelete = new javax.swing.JButton();
+        deleteField = new palimbang.dashboard.swing.MyTextFieldAdmin();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -159,10 +160,6 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
             }
         });
 
-        myTextField1.setBackground(new java.awt.Color(204, 204, 204));
-        myTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        myTextField1.setHint("User ID");
-
         userField.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         userField.setForeground(new java.awt.Color(102, 102, 102));
         userField.setHint("User ID");
@@ -186,6 +183,17 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
             }
         });
 
+        userDelete.setBackground(new java.awt.Color(153, 153, 153));
+        userDelete.setText("Delete");
+        userDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userDeleteActionPerformed(evt);
+            }
+        });
+
+        deleteField.setForeground(new java.awt.Color(102, 102, 102));
+        deleteField.setHint("User ID");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -198,25 +206,26 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                 .addComponent(userFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(87, 87, 87)
-                .addComponent(myTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(resetTable, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(userDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(deleteField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(105, 105, 105)
+                .addComponent(resetTable, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 921, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(myTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(userEdit, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                            .addComponent(userField, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
-                        .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(resetTable, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(userFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                        .addComponent(userEdit, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                        .addComponent(userField, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
+                    .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(resetTable, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE))
         );
@@ -289,9 +298,9 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                                             String stmt = String.format("username = '%s', userPass = '%s', userEmail = '%s', userFirstN = '%s', userLastN = '%s', userMiddleN = '%s', userPos = '%s', userAppDate = '%s'", user2, pass2, email2, fName2, lName2, mName2, pos2, appDate2);
                                             String stmt2 = "userID = '" + userField.getText() + "'";
                                             query.updateRow(conn, TABLE_NAME, stmt, stmt2);
-                                            
                                             userField.setText("");
                                             filterField.setText("");
+                                            deleteField.setText("");
                                             user = ""; pass = ""; email = ""; fName = ""; lName = ""; mName = ""; pos = ""; 
                                             initTable();
                                             centerTableComponents();
@@ -309,9 +318,9 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                                             String stmt = String.format("username = '%s', userPass = '%s', userEmail = '%s', userFirstN = '%s', userLastN = '%s', userMiddleN = '%s', userPos = '%s', userAppDate = '%s'", user2, pass2, email2, fName2, lName2, mName2, pos2, appDate2);
                                             String stmt2 = "userID = '" + userField.getText() + "'";
                                             query.updateRow(conn, TABLE_NAME, stmt, stmt2);
-                                            
                                             userField.setText("");
                                             filterField.setText("");
+                                            deleteField.setText("");
                                             user = ""; pass = ""; email = ""; fName = ""; lName = ""; mName = ""; pos = ""; appDate = null;
                                             initTable();
                                             centerTableComponents();
@@ -348,7 +357,7 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
 
     private void userFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userFilterActionPerformed
         if(!filterField.getText().equals("")) {
-            if(!query.isStrUnique(conn, filterField.getText(), "userEmail", "UserTable")) {
+            if(!query.isStrUnique(conn, filterField.getText(), "userEmail", "UserTable") && !filterField.getText().equals("0")) {
                 try {
                 String sql = "Select userID, username, userEmail, userFirstN, userLastN, userPos, userAppDate from UserTable where userEmail = ?";
                 PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -363,6 +372,7 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                 centerTableComponents();
                 filterField.setText("");
                 userField.setText("");
+                deleteField.setText("");
                 JOptionPane.showMessageDialog(null, "Table has been filtered!", "", JOptionPane.INFORMATION_MESSAGE); 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -389,13 +399,47 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_resetTableActionPerformed
 
+    private void userDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userDeleteActionPerformed
+        if(!deleteField.getText().equals("")) {
+            if(!query.isStrUnique(conn, deleteField.getText(), "userID", "UserTable") && !deleteField.getText().equals("0")) {
+                int response = JOptionPane.showConfirmDialog(rootPane,
+                "Are you sure you want to delete the selected employee?",
+                "",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+                if(response == 0)
+                {
+                    try {
+                        String sql = "DELETE FROM UserTable where userID = ?";
+                        PreparedStatement pstmt = conn.prepareStatement(sql);
+                        pstmt.setString(1, deleteField.getText());
+                        pstmt.executeUpdate();
+                        userField.setText("");
+                        filterField.setText("");
+                        deleteField.setText("");
+                        initTable();
+                        centerTableComponents();
+                        JOptionPane.showMessageDialog(null, "Deletion was successful!", "", JOptionPane.INFORMATION_MESSAGE); 
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "User ID is invalid!", "Error", JOptionPane.INFORMATION_MESSAGE); 
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No input provided!", "Error", JOptionPane.INFORMATION_MESSAGE);   
+        }
+    }//GEN-LAST:event_userDeleteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private palimbang.dashboard.swing.MyTextFieldAdmin deleteField;
     private palimbang.dashboard.swing.MyTextFieldAdmin filterField;
     private javax.swing.JScrollPane jScrollPane1;
-    private swing.MyTextField myTextField1;
     private javax.swing.JButton resetTable;
     private palimbang.dashboard.swing.Table table1;
+    private javax.swing.JButton userDelete;
     private javax.swing.JButton userEdit;
     private palimbang.dashboard.swing.MyTextFieldAdmin userField;
     private javax.swing.JButton userFilter;
