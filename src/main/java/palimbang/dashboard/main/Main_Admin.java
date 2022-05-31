@@ -1,7 +1,6 @@
 package palimbang.dashboard.main;
 
 import palimbang.dashboard.event.EventMenuSelected;
-import palimbang.dashboard.form.Form_Home;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +14,7 @@ import palimbang.dashboard.form.Form_Employees_Admin;
 import palimbang.dashboard.form.Form_Profile_Adm;
 import palimbang.dashboard.form.Form_Reg_Adm;
 import palimbang.dashboard.form.Form_Time_Adm;
+import palimbang.dashboard.form.Form_Doc_Adm;
 
 public class Main_Admin extends javax.swing.JFrame {
     
@@ -56,6 +56,13 @@ public class Main_Admin extends javax.swing.JFrame {
                 else if (index == 3){
                     try {
                         setForm(new Form_Time_Adm(conn, userid));
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Main_Employee.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                else if (index == 4){
+                    try {
+                        setForm(new Form_Doc_Adm(conn, userid));
                     } catch (SQLException ex) {
                         Logger.getLogger(Main_Employee.class.getName()).log(Level.SEVERE, null, ex);
                     }

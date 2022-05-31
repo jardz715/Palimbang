@@ -12,6 +12,7 @@ import main.Main;
 import main.TimeInTimeOut;
 import palimbang.dashboard.form.Form_Time_Emp;
 import palimbang.dashboard.form.Form_Profile_Emp;
+import palimbang.dashboard.form.Form_Doc_Emp;
 
 public class Main_Employee extends javax.swing.JFrame {
     
@@ -39,6 +40,13 @@ public class Main_Employee extends javax.swing.JFrame {
                 else if (index == 1){
                     try {
                         setForm(new Form_Time_Emp(conn, userid));
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Main_Employee.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                else if (index == 2){
+                    try {
+                        setForm(new Form_Doc_Emp(conn, userid));
                     } catch (SQLException ex) {
                         Logger.getLogger(Main_Employee.class.getName()).log(Level.SEVERE, null, ex);
                     }

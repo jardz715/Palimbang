@@ -4,7 +4,6 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import org.sqlite.SQLiteDataSource;
 
 public class DBConnect {
         
@@ -15,17 +14,16 @@ public class DBConnect {
 		
 		// No DB? Create
 		if(!file.exists()) {
-			SQLiteDataSource ds = null;
 			
 			try {
-				ds = new SQLiteDataSource();
-		        ds.setUrl("jdbc:sqlite:resources/test.db");
+                            Class.forName("org.sqlite.JDBC");
+                            Connection conn = DriverManager.getConnection("jdbc:sqlite:resources\\test.db");
 
-		        //Add methods for creating all tables here. Preferably a different class for recycling purposes
-		        DBQueries query = new DBQueries();
-		        query.createTables(ds.getConnection());
+                            //Add methods for creating all tables here. Preferably a different class for recycling purposes
+                            DBQueries query = new DBQueries();
+                            query.createTables(conn);
 		        
-		        return ds.getConnection();
+		        return conn;
 		    } catch ( Exception e ) {
 		        e.printStackTrace();
 		        System.exit(0);

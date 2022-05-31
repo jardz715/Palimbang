@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class DBQueries {
 	
     // Select from table without WHERE clause
-	private ResultSet selectFromTable(Connection conn, String selectFF, String table) {
+	public ResultSet selectFromTable(Connection conn, String selectFF, String table) {
 		if(selectFF == null  || table == null)
 			return null;
 		
@@ -50,9 +50,9 @@ public class DBQueries {
 	                   " userOut text CHECK (userOut IS time(userOut))," +
                            " userAdd VARCHAR(255), " +
                            " userStatus VARCHAR(255), " +
-                           " userAppDate VARCHAR(255) " + //Placeholder until admin can actually set the date from their dashboard
+                           " userAppDate VARCHAR(255), " + //Placeholder until admin can actually set the date from their dashboard
                            " userNat VARCHAR(255), " +
-                           " userPos VARCHAR (255) " +
+                           " userPos VARCHAR (255), " +
 	                   " PRIMARY KEY ( userID ))"; 
 			stmt.executeUpdate(sql);
 	         
@@ -79,12 +79,42 @@ public class DBQueries {
 	                   " timeHistOT INTEGER, " + 
 	                   " PRIMARY KEY ( timeHistID ))"; 
 	         stmt.executeUpdate(sql);
+                 
+                 sql = "CREATE TABLE IF NOT EXISTS DocTemplateTable " +
+	                   "(dTemplateID INTEGER not NULL, " +
+	                   " dTemplatePath text, " +
+	                   " dTemplateTitle text, " +
+	                   " PRIMARY KEY ( dTemplateID ))"; 
+	         stmt.executeUpdate(sql);
+                 
+                 sql = "CREATE TABLE IF NOT EXISTS DocumentTable " +
+	                   "(docID INTEGER not NULL, " +
+                           " userID INTEGER, " +
+                           " dTemplateID INTEGER, " +
+	                   " docPath text, " +
+	                   " docTitle text, " +
+                           " docSubmitted BOOLEAN, " +
+                           " docValidated BOOLEAN, " +
+	                   " PRIMARY KEY ( docID ))"; 
+	         stmt.executeUpdate(sql);
 	         
 	      } catch (SQLException e) {
 	         e.printStackTrace();
 	      } 
 	} 
 	
+        public void deleteRows(Connection conn, String table, String where){
+            String sql = "DELETE FROM " + table + " WHERE " + where;
+            Statement stmt;
+            try {
+                stmt = conn.createStatement();
+                stmt.executeUpdate(sql);
+            } catch (SQLException ex) {
+                Logger.getLogger(DBQueries.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
 	// prior to be changed, just a quick attempt. must hash password
 	protected void registerUser(Connection conn, List<String> list) {
 		String sql = "INSERT INTO UserTable(username, userPass, userFirstN, userMiddleN, userLastN, userAge, userEmail, userContact, userGender, userIsAdmin, userIn, userOut) VALUES(?,?,?,?,?,?,?,?,?,0,'09:00:00','18:00:00')";
@@ -171,7 +201,33 @@ public class DBQueries {
         	e.printStackTrace();
         }
 	}
-	
+        
+        public void insertDocTemplate(Connection conn, List<String> list) {
+            String sql = "INSERT INTO DocTemplateTable (dTemplatePath, dTemplateTitle) VALUES (?,?)";
+            try {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                for (int i = 0; i < list.size(); i++) {
+                    pstmt.setString(i+1, list.get(i));
+                }
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+	}
+        
+        public void insertDocument(Connection conn, List<String> list) {
+            String sql = "INSERT INTO DocumentTable (userID, dTemplateID ,docPath, docTitle, docValidated, docSubmitted) VALUES (?,?,?,?,?,?)";
+            try {
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+                for (int i = 0; i < list.size(); i++) {
+                    pstmt.setString(i+1, list.get(i));
+                }
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+	}
+      
 	protected void insertTimeOut(Connection conn, int ID) {
 		String sql = "UPDATE TimeTable SET timeOut = datetime('now', 'localtime') WHERE userID = " + ID;
 		String sql2 = "UPDATE TimeTable SET timeDiff = ?, timeOT = ? WHERE userID = " + ID;

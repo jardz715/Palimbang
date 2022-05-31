@@ -613,21 +613,6 @@ public class regEmployee extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    regEmployee re = new regEmployee();
-                    re.setVisible(true);
-                    re.setLocationRelativeTo(null);
-                } catch (SQLException ex) {
-                    Logger.getLogger(regEmployee.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel admSubLabel;

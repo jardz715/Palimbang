@@ -146,6 +146,7 @@ public class Form_Time_Adm extends javax.swing.JPanel {
                 String userID = rs.getString("userID");
                 ResultSet rs2 = query.getRow(conn, "timeHistIn as TimeIn, timeHistOut as TimeOut, timeHistDiff as TotalTimeInMinutes, timeHistOT as Overtime", "TimeHistoryTable", "userID =" + userID);
                 jTable = new JTable(startTable(rs2));
+                jTable.setDefaultEditor(Object.class, null);
                 jScrollPane2.setViewportView(jTable);
             }else{
                 JOptionPane.showMessageDialog(null, "Username cannot be found in the Database.", "Error", JOptionPane.INFORMATION_MESSAGE);

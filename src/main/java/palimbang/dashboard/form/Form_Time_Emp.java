@@ -41,6 +41,7 @@ public class Form_Time_Emp extends javax.swing.JPanel {
                 currentLabel.setText("Current: Not Timed In.");
             }
             jTable = new JTable(startTable(rs3));
+            jTable.setDefaultEditor(Object.class, null);
             jScrollPane2.setViewportView(jTable);
         }catch (SQLException ex) {
             Logger.getLogger(Form_Profile_Emp.class.getName()).log(Level.SEVERE, null, ex);
