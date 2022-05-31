@@ -17,7 +17,7 @@ public class DBConnect {
 			
 			try {
                             Class.forName("org.sqlite.JDBC");
-                            Connection conn = DriverManager.getConnection("jdbc:sqlite:resources\\test.db");
+                            Connection conn = DriverManager.getConnection("jdbc:sqlite:resources/test.db");
 
                             //Add methods for creating all tables here. Preferably a different class for recycling purposes
                             DBQueries query = new DBQueries();
