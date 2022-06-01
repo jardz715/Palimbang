@@ -63,16 +63,16 @@ public class Menu_Employee extends javax.swing.JPanel implements Runnable{
         listMenu1.addItem(new Model_Menu("1", "Profile", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("2", "Time Log", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("3", "Documents", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("4", "Sample Text", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("5", "Sample Text", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("", "Sample Text", Model_Menu.MenuType.EMPTY));
+        listMenu1.addItem(new Model_Menu("", "Sample Text", Model_Menu.MenuType.EMPTY));
         listMenu1.addItem(new Model_Menu("", " ", Model_Menu.MenuType.EMPTY));
 
-        listMenu1.addItem(new Model_Menu("", "------------------------------------------", Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("", " ", Model_Menu.MenuType.EMPTY));
-        listMenu1.addItem(new Model_Menu("6", "Sample Text", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("7", "Sample Text", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("8", "Sample Text", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("9", "Sample Text", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("", "Sample Text", Model_Menu.MenuType.EMPTY));
+        listMenu1.addItem(new Model_Menu("", "Sample Text", Model_Menu.MenuType.EMPTY));
+        listMenu1.addItem(new Model_Menu("", "Sample Text", Model_Menu.MenuType.EMPTY));
+        listMenu1.addItem(new Model_Menu("", "Sample Text", Model_Menu.MenuType.EMPTY));
+        listMenu1.addItem(new Model_Menu("", "Sample Text", Model_Menu.MenuType.EMPTY));
+        listMenu1.addItem(new Model_Menu("", "Sample Text", Model_Menu.MenuType.EMPTY));
         listMenu1.addItem(new Model_Menu("10", "Logout", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
         

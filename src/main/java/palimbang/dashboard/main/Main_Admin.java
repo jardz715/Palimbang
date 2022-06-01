@@ -150,8 +150,7 @@ public class Main_Admin extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(102, 102, 102));
         jLabel1.setText("Dashboard");
 
-        delButton.setBackground(new java.awt.Color(29, 122, 116));
-        delButton.setForeground(new java.awt.Color(255, 255, 255));
+        delButton.setBackground(new java.awt.Color(153, 153, 153));
         delButton.setText("Deactivate Account");
         delButton.setVisible(false);
         delButton.addActionListener(new java.awt.event.ActionListener() {
