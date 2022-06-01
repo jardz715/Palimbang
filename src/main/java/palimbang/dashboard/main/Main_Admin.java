@@ -10,11 +10,11 @@ import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import main.Main;
+import palimbang.dashboard.form.Form_Doc_Adm;
 import palimbang.dashboard.form.Form_Employees_Admin;
 import palimbang.dashboard.form.Form_Profile_Adm;
 import palimbang.dashboard.form.Form_Reg_Adm;
 import palimbang.dashboard.form.Form_Time_Adm;
-import palimbang.dashboard.form.Form_Doc_Adm;
 
 public class Main_Admin extends javax.swing.JFrame {
     
@@ -122,9 +122,9 @@ public class Main_Admin extends javax.swing.JFrame {
         jFrame1 = new javax.swing.JFrame();
         panelBorder1 = new palimbang.dashboard.swing.panelBorder();
         jLabel1 = new javax.swing.JLabel();
+        delButton = new javax.swing.JButton();
         mainPanel = new javax.swing.JPanel();
         menu_Admin = new palimbang.dashboard.component.Menu_Admin();
-        delButton = new javax.swing.JButton();
 
         jFrame1.setLocation(new java.awt.Point(10, -5));
         jFrame1.setResizable(false);
@@ -147,11 +147,8 @@ public class Main_Admin extends javax.swing.JFrame {
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("MS PGothic", 1, 28)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel1.setForeground(new java.awt.Color(102, 102, 102));
         jLabel1.setText("Dashboard");
-
-        mainPanel.setBackground(new java.awt.Color(255, 255, 255));
-        mainPanel.setLayout(new java.awt.BorderLayout());
 
         delButton.setBackground(new java.awt.Color(29, 122, 116));
         delButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -163,17 +160,20 @@ public class Main_Admin extends javax.swing.JFrame {
             }
         });
 
+        mainPanel.setBackground(new java.awt.Color(255, 255, 255));
+        mainPanel.setLayout(new java.awt.BorderLayout());
+
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
         panelBorder1Layout.setHorizontalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
                 .addComponent(menu_Admin, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 926, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(28, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)

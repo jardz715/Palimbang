@@ -10,9 +10,9 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import main.Main;
 import main.TimeInTimeOut;
+import palimbang.dashboard.form.Form_Doc_Emp;
 import palimbang.dashboard.form.Form_Time_Emp;
 import palimbang.dashboard.form.Form_Profile_Emp;
-import palimbang.dashboard.form.Form_Doc_Emp;
 
 public class Main_Employee extends javax.swing.JFrame {
     
@@ -36,6 +36,7 @@ public class Main_Employee extends javax.swing.JFrame {
                     } catch (SQLException ex) {
                         Logger.getLogger(Main_Employee.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    jLabel1.setText("Dashboard");
                 }
                 else if (index == 1){
                     try {
@@ -43,6 +44,7 @@ public class Main_Employee extends javax.swing.JFrame {
                     } catch (SQLException ex) {
                         Logger.getLogger(Main_Employee.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    jLabel1.setText("Attendance Summary");
                 }
                 else if (index == 2){
                     try {
@@ -50,6 +52,7 @@ public class Main_Employee extends javax.swing.JFrame {
                     } catch (SQLException ex) {
                         Logger.getLogger(Main_Employee.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    jLabel1.setText("Dashboard");
                 }
                 else if (index == 12){
                     int response = JOptionPane.showConfirmDialog(rootPane,
@@ -119,14 +122,13 @@ public class Main_Employee extends javax.swing.JFrame {
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("MS PGothic", 1, 28)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel1.setForeground(new java.awt.Color(102, 102, 102));
         jLabel1.setText("Dashboard");
 
         mainPanel.setBackground(new java.awt.Color(255, 255, 255));
         mainPanel.setLayout(new java.awt.BorderLayout());
 
-        timeOut.setBackground(new java.awt.Color(29, 122, 116));
-        timeOut.setForeground(new java.awt.Color(255, 255, 255));
+        timeOut.setBackground(new java.awt.Color(153, 153, 153));
         timeOut.setText("Time out");
         timeOut.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -139,8 +141,7 @@ public class Main_Employee extends javax.swing.JFrame {
             }
         });
 
-        timeIn.setBackground(new java.awt.Color(29, 122, 116));
-        timeIn.setForeground(new java.awt.Color(255, 255, 255));
+        timeIn.setBackground(new java.awt.Color(153, 153, 153));
         timeIn.setText("Time in");
         timeIn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -159,19 +160,19 @@ public class Main_Employee extends javax.swing.JFrame {
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
                 .addComponent(menu_Employee, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
-                        .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 926, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(panelBorder1Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(timeIn, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(timeOut, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21))))
+                        .addGap(21, 21, 21))
+                    .addGroup(panelBorder1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 922, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,7 +189,7 @@ public class Main_Employee extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(menu_Employee, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
+            .addComponent(menu_Employee, javax.swing.GroupLayout.PREFERRED_SIZE, 627, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

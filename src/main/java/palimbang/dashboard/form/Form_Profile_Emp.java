@@ -149,88 +149,87 @@ public class Form_Profile_Emp extends javax.swing.JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
 
         titleLabel.setFont(new java.awt.Font("MS PGothic", 1, 24)); // NOI18N
-        titleLabel.setForeground(new java.awt.Color(29, 122, 116));
+        titleLabel.setForeground(new java.awt.Color(102, 102, 102));
         titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titleLabel.setText("Employee Details");
 
         IDLabel.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        IDLabel.setForeground(new java.awt.Color(29, 122, 116));
+        IDLabel.setForeground(new java.awt.Color(102, 102, 102));
         IDLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         IDLabel.setText("User ID:");
 
         jLabel1.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel1.setForeground(new java.awt.Color(102, 102, 102));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel1.setText("First Name:");
 
         jLabel2.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel2.setForeground(new java.awt.Color(102, 102, 102));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel2.setText("Middle Initial:");
 
         jLabel3.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel3.setForeground(new java.awt.Color(102, 102, 102));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel3.setText("Last Name:");
 
         jLabel4.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel4.setForeground(new java.awt.Color(102, 102, 102));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel4.setText("Username:");
 
         jLabel5.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel5.setText("Password:");
 
         jLabel6.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel6.setForeground(new java.awt.Color(102, 102, 102));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel6.setText("Age:");
 
         jLabel7.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel7.setForeground(new java.awt.Color(102, 102, 102));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel7.setText("Gender:");
 
         jLabel8.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel8.setForeground(new java.awt.Color(102, 102, 102));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel8.setText("E-Mail:");
 
         jLabel9.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel9.setForeground(new java.awt.Color(102, 102, 102));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel9.setText("Address:");
 
         jLabel10.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel10.setForeground(new java.awt.Color(102, 102, 102));
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel10.setText("Contact Number:");
 
         jLabel11.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel11.setForeground(new java.awt.Color(102, 102, 102));
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel11.setText("Date of Appointment:");
 
         jLabel12.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel12.setForeground(new java.awt.Color(102, 102, 102));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel12.setText("Civil Status:");
 
         jLabel13.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel13.setForeground(new java.awt.Color(102, 102, 102));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel13.setText("Nationality:");
 
         jLabel14.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel14.setForeground(new java.awt.Color(102, 102, 102));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel14.setText("Position:");
 
-        editButton.setBackground(new java.awt.Color(29, 122, 116));
-        editButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        editButton.setForeground(new java.awt.Color(255, 255, 255));
+        editButton.setBackground(new java.awt.Color(153, 153, 153));
+        editButton.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         editButton.setText("Edit");
         editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -360,7 +359,7 @@ public class Form_Profile_Emp extends javax.swing.JPanel {
                                     .addComponent(posField, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(editButton)))
+                                .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(102, 102, 102))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -435,7 +434,7 @@ public class Form_Profile_Emp extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editButton))
+                    .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 73, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents

@@ -87,86 +87,78 @@ public class Form_Reg_Adm extends javax.swing.JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
 
         titleLabel.setFont(new java.awt.Font("MS PGothic", 1, 24)); // NOI18N
-        titleLabel.setForeground(new java.awt.Color(29, 122, 116));
+        titleLabel.setForeground(new java.awt.Color(102, 102, 102));
         titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titleLabel.setText("Admin Registration");
 
         jLabel1.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel1.setForeground(new java.awt.Color(102, 102, 102));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel1.setText("First Name:");
 
         jLabel2.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel2.setForeground(new java.awt.Color(102, 102, 102));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel2.setText("Middle Initial:");
 
         jLabel3.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel3.setForeground(new java.awt.Color(102, 102, 102));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel3.setText("Last Name:");
 
         jLabel4.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel4.setForeground(new java.awt.Color(102, 102, 102));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel4.setText("Username:");
 
         jLabel5.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel5.setText("Password:");
 
         jLabel6.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel6.setForeground(new java.awt.Color(102, 102, 102));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel6.setText("Repeat Password:");
 
         jLabel7.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel7.setForeground(new java.awt.Color(102, 102, 102));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel7.setText("E-Mail:");
 
         jLabel8.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel8.setForeground(new java.awt.Color(102, 102, 102));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel8.setText("Repeat E-Mail:");
 
         jLabel9.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(29, 122, 116));
+        jLabel9.setForeground(new java.awt.Color(102, 102, 102));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel9.setText("Contact Number:");
 
-        fNameField.setBackground(new java.awt.Color(255, 255, 255));
         fNameField.setFont(new java.awt.Font("MS PGothic", 0, 18)); // NOI18N
 
-        mNameField.setBackground(new java.awt.Color(255, 255, 255));
         mNameField.setFont(new java.awt.Font("MS PGothic", 0, 18)); // NOI18N
 
-        lNameField.setBackground(new java.awt.Color(255, 255, 255));
         lNameField.setFont(new java.awt.Font("MS PGothic", 0, 18)); // NOI18N
 
-        unameField.setBackground(new java.awt.Color(255, 255, 255));
         unameField.setFont(new java.awt.Font("MS PGothic", 0, 18)); // NOI18N
 
-        passField.setBackground(new java.awt.Color(255, 255, 255));
         passField.setFont(new java.awt.Font("MS PGothic", 0, 18)); // NOI18N
 
-        passField2.setBackground(new java.awt.Color(255, 255, 255));
         passField2.setFont(new java.awt.Font("MS PGothic", 0, 18)); // NOI18N
 
-        emailField.setBackground(new java.awt.Color(255, 255, 255));
         emailField.setFont(new java.awt.Font("MS PGothic", 0, 18)); // NOI18N
 
-        emailField2.setBackground(new java.awt.Color(255, 255, 255));
         emailField2.setFont(new java.awt.Font("MS PGothic", 0, 18)); // NOI18N
 
-        numField.setBackground(new java.awt.Color(255, 255, 255));
         numField.setFont(new java.awt.Font("MS PGothic", 0, 18)); // NOI18N
 
         registLabel.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         registLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         registLabel.setIcon(new javax.swing.ImageIcon("resources/login.png"));
         registLabel.setText("Register");
+        registLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         registLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 registLabelMouseClicked(evt);
@@ -226,6 +218,9 @@ public class Form_Reg_Adm extends javax.swing.JPanel {
                     .addComponent(registLabel, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(102, 102, 102))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {emailField, emailField2, fNameField, lNameField, mNameField, numField, passField, passField2, unameField});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -268,6 +263,9 @@ public class Form_Reg_Adm extends javax.swing.JPanel {
                     .addComponent(registLabel))
                 .addGap(0, 79, Short.MAX_VALUE))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {emailField, emailField2, fNameField, lNameField, mNameField, numField, passField, passField2, unameField});
+
     }// </editor-fold>//GEN-END:initComponents
 
     private void registLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registLabelMouseClicked

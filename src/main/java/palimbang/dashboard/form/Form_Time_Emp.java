@@ -11,27 +11,33 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import main.DBQueries;
+import net.proteanit.sql.DbUtils;
 
 public class Form_Time_Emp extends javax.swing.JPanel {
 
     Connection conn;
     int userid;
-   
+    JTable dataTable;
     
     public Form_Time_Emp(Connection temp, int ID) throws SQLException{
         conn = temp;
         userid = ID;
         initComponents();
-        getDataFromDB(conn, userid); 
-        
+        jTable.addTableStyle(jScrollPane2);
+        getDataFromDB(conn, userid);
+        dataTable = new JTable(startTable(getDataFromDB(conn, userid)));
+        initTable(getDataFromDB(conn, userid));
+        centerTableComponents();
     }
     
      
-    protected void getDataFromDB(Connection conn, int userID){
+    protected ResultSet getDataFromDB(Connection conn, int userID){
         DBQueries query = new DBQueries();
         
         ResultSet rs = query.getRow(conn, "userIn, userOut", "UserTable", "userID =" + userID);
@@ -45,13 +51,10 @@ public class Form_Time_Emp extends javax.swing.JPanel {
             }else{
                 currentLabel.setText("Current: Not Timed In.");
             }
-            jTable = new JTable(startTable(rs3));
-            jTable.setDefaultEditor(Object.class, null);
-            jScrollPane2.setViewportView(jTable);
         }catch (SQLException ex) {
             Logger.getLogger(Form_Profile_Emp.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        return rs3;
     }
     
     protected DefaultTableModel startTable(ResultSet rs) throws SQLException{
@@ -77,60 +80,62 @@ public class Form_Time_Emp extends javax.swing.JPanel {
         return new DefaultTableModel(data, columnNames);
     }
     
+    private void initTable(ResultSet rs) {
+        try {
+            jTable.setModel(DbUtils.resultSetToTableModel(rs));
+            DefaultTableModel model = (DefaultTableModel) jTable.getModel();
+            int emptyCellCount = 10 - jTable.getRowCount();
+            if(jTable.getRowCount() < 10)
+                for(int i=0; i<emptyCellCount; i++)
+                    model.addRow(new Object[] {});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        jTable.setEnabled(false);
+    }
+    
+    private void centerTableComponents() {
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        TableModel tableModel = jTable.getModel();
+        for (int columnIndex = 0; columnIndex < tableModel.getColumnCount(); columnIndex++)
+        {
+            jTable.getColumnModel().getColumn(columnIndex).setCellRenderer(centerRenderer);
+        }
+        jTable.setEnabled(false);
+    }
+    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable = new javax.swing.JTable();
-        attendanceLabel = new javax.swing.JLabel();
         timeInLabel = new javax.swing.JLabel();
         timeOutLabel = new javax.swing.JLabel();
         currentLabel = new javax.swing.JLabel();
         printButton = new javax.swing.JToggleButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable = new palimbang.dashboard.swing.Table();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
-        jTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable);
-
-        attendanceLabel.setFont(new java.awt.Font("MS PGothic", 1, 24)); // NOI18N
-        attendanceLabel.setForeground(new java.awt.Color(29, 122, 116));
-        attendanceLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        attendanceLabel.setText("Attendance Summary");
-
         timeInLabel.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        timeInLabel.setForeground(new java.awt.Color(29, 122, 116));
+        timeInLabel.setForeground(new java.awt.Color(102, 102, 102));
         timeInLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         timeInLabel.setText("Time In:");
 
         timeOutLabel.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        timeOutLabel.setForeground(new java.awt.Color(29, 122, 116));
+        timeOutLabel.setForeground(new java.awt.Color(102, 102, 102));
         timeOutLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         timeOutLabel.setText("Time Out:");
 
         currentLabel.setFont(new java.awt.Font("MS PGothic", 1, 18)); // NOI18N
-        currentLabel.setForeground(new java.awt.Color(29, 122, 116));
+        currentLabel.setForeground(new java.awt.Color(102, 102, 102));
         currentLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         currentLabel.setText("Current:");
 
-        printButton.setBackground(new java.awt.Color(29, 122, 116));
-        printButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        printButton.setForeground(new java.awt.Color(255, 255, 255));
+        printButton.setBackground(new java.awt.Color(153, 153, 153));
+        printButton.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         printButton.setText("Print");
         printButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,54 +143,74 @@ public class Form_Time_Emp extends javax.swing.JPanel {
             }
         });
 
+        jTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "TimeIn", "TimeOut", "TotalTimeInMinutes", "Overtime"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable);
+        if (jTable.getColumnModel().getColumnCount() > 0) {
+            jTable.getColumnModel().getColumn(0).setResizable(false);
+            jTable.getColumnModel().getColumn(1).setResizable(false);
+            jTable.getColumnModel().getColumn(2).setResizable(false);
+            jTable.getColumnModel().getColumn(3).setResizable(false);
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(63, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addComponent(timeInLabel)
-                        .addGap(122, 122, 122)
-                        .addComponent(timeOutLabel)
-                        .addGap(160, 160, 160)
-                        .addComponent(currentLabel)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(attendanceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 883, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(46, 46, 46))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(72, 72, 72)
+                .addComponent(timeInLabel)
+                .addGap(122, 122, 122)
+                .addComponent(timeOutLabel)
+                .addGap(160, 160, 160)
+                .addComponent(currentLabel)
+                .addContainerGap(309, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane2)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(52, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(attendanceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(printButton))
+                .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(timeInLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(timeOutLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(currentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
         File file = new File("resources\\documents\\DTR_" + userid + ".xls");
-        export(jTable, file);
+        export(dataTable, file);
         try {
             Desktop.getDesktop().open(file);
         } catch (IOException ex) {
@@ -213,10 +238,9 @@ public class Form_Time_Emp extends javax.swing.JPanel {
   }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel attendanceLabel;
     private javax.swing.JLabel currentLabel;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable;
+    private palimbang.dashboard.swing.Table jTable;
     private javax.swing.JToggleButton printButton;
     private javax.swing.JLabel timeInLabel;
     private javax.swing.JLabel timeOutLabel;

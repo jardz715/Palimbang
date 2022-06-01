@@ -146,8 +146,9 @@ public class Menu_Employee extends javax.swing.JPanel implements Runnable{
     protected void paintChildren(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        GradientPaint gp = new GradientPaint(0, 0, Color.decode("#134E5E"), 0, getHeight(), Color.decode("#71B280"));
-        g2.setPaint(gp);
+//        GradientPaint gp = new GradientPaint(0, 0, Color.decode("#134E5E"), 0, getHeight(), Color.decode("#71B280"));
+//        g2.setPaint(gp);
+        g2.setColor(new Color(32,157,90));
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
         g2.fillRect(getWidth() - 20, 0, getWidth(), getHeight());
         super.paintChildren(g);

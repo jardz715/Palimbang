@@ -58,6 +58,7 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        table1.setEnabled(false);
     }
     
     private void centerTableComponents() {
@@ -75,6 +76,7 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
         table1.getColumnModel().getColumn(4).setHeaderValue("Lastname");
         table1.getColumnModel().getColumn(5).setHeaderValue("Position");
         table1.getColumnModel().getColumn(6).setHeaderValue("Appointment Date");
+        table1.setEnabled(false);
     }
     
     protected boolean isUnameValid(String user){
