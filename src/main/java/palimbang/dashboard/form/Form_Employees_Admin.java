@@ -412,10 +412,24 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                 if(response == 0)
                 {
                     try {
+                        // Deletes user from usertable based on userID value
                         String sql = "DELETE FROM UserTable where userID = ?";
                         PreparedStatement pstmt = conn.prepareStatement(sql);
                         pstmt.setString(1, deleteField.getText());
                         pstmt.executeUpdate();
+                        
+                        // Deletes user documents from documenttable based on userID
+                        String sql2 = "DELETE FROM DocumentTable where userID = ?";
+                        PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+                        pstmt2.setString(1, deleteField.getText());
+                        pstmt2.executeUpdate();
+                        
+                        // Deletes user time history based on userID
+                        String sql3 = "DELETE FROM TimeHistoryTable where userID = ?";
+                        PreparedStatement pstmt3 = conn.prepareStatement(sql3);
+                        pstmt3.setString(1, deleteField.getText());
+                        pstmt3.executeUpdate();
+                        
                         userField.setText("");
                         filterField.setText("");
                         deleteField.setText("");
