@@ -17,6 +17,7 @@ public class Form_Profile_Emp extends javax.swing.JPanel {
 
     Connection conn;
     int userid;
+    int ctr;
     final String TABLE_NAME = "UserTable";
     
     String un, pw, eml, add, num, stat, nat;
@@ -80,7 +81,39 @@ public class Form_Profile_Emp extends javax.swing.JPanel {
         }
     }
     
-    // Can add a method to check if there are empty fields that need to be filled.
+    // Method to revert username
+    protected String revertUname(Connection conn, int uID){
+        String origUsername = null;
+        DBQueries query = new DBQueries();
+        String queryStmt = String.format("userID = '%s'", uID);
+        ResultSet rs = query.getRow(conn, "*", TABLE_NAME, queryStmt);
+        
+        try {
+            while(rs.next()){
+                origUsername = rs.getString("username");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return origUsername;
+    }
+    
+    // Method to revert email
+    protected String revertEmail(Connection conn, int uID){
+        String origEmail = null;
+        DBQueries query = new DBQueries();
+        String queryStmt = String.format("userID = '%s'", uID);
+        ResultSet rs = query.getRow(conn, "*", TABLE_NAME, queryStmt);
+        
+        try {
+            while(rs.next()){
+                origEmail = rs.getString("userEmail");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return origEmail;
+    }
     
     // Method to perform regex check on username
     protected boolean isUnameValid(String user){
@@ -440,7 +473,6 @@ public class Form_Profile_Emp extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        int ctr = 0;
         if(editButton.isSelected()){
             // When toggle button is selected
             ctr++;
@@ -480,11 +512,20 @@ public class Form_Profile_Emp extends javax.swing.JPanel {
             
             DBQueries query = new DBQueries();
             if(isUnameValid(un)){
-                if(!query.isStrUnique(conn, un, "username", TABLE_NAME) && ctr % 2 == 0){
+                if(!query.isStrUnique(conn, userid, un, "username", TABLE_NAME) && ctr % 2 == 0){
                     JOptionPane.showMessageDialog(null, "Username is already used. Please enter a different username.", "Error", JOptionPane.INFORMATION_MESSAGE);
+                    unameField.setText(revertUname(conn, userid));
                 }
-                else if(!query.isStrUnique(conn, eml, "userEmail", TABLE_NAME) && ctr % 2 == 0){
+                else{
+                    String stmt = String.format("username = '%s', userPass = '%s', userEmail = '%s', userAdd = '%s', userContact = '%s', userStatus = '%s', userNat = '%s'", un, pw, eml, add, num, stat, nat);
+                    String stmt2 = "userID = '" + userid + "'";
+                    query.updateRow(conn, TABLE_NAME, stmt, stmt2);
+                }
+                
+                
+                if(!query.isStrUnique(conn, userid, eml, "userEmail", TABLE_NAME) && ctr % 2 == 0){
                     JOptionPane.showMessageDialog(null, "Email is already used. Please enter a different email.", "Error", JOptionPane.INFORMATION_MESSAGE);
+                    emailField.setText(revertEmail(conn, userid));
                 }
                 else{
                     String stmt = String.format("username = '%s', userPass = '%s', userEmail = '%s', userAdd = '%s', userContact = '%s', userStatus = '%s', userNat = '%s'", un, pw, eml, add, num, stat, nat);
