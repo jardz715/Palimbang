@@ -17,6 +17,7 @@ public class Form_Profile_Adm extends javax.swing.JPanel {
 
     Connection conn;
     int userid;
+    int ctr;
     final String TABLE_NAME = "UserTable";
     
     String fn, mn, ln, un, pw, eml, add, num, stat, nat;
@@ -378,7 +379,6 @@ public class Form_Profile_Adm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        int ctr = 0;
         if(editButton.isSelected()){
             // When toggle button is selected
             ctr++;
@@ -427,11 +427,13 @@ public class Form_Profile_Adm extends javax.swing.JPanel {
             
             DBQueries query = new DBQueries();
             if(isUnameValid(un)){
-                if(!query.isStrUnique(conn, un, "username", TABLE_NAME) && ctr % 2 == 0){
+                if(!query.isStrUnique(conn, userid, un, "username", TABLE_NAME) && ctr % 2 == 0){
                     JOptionPane.showMessageDialog(null, "Username is already used. Please enter a different username.", "Error", JOptionPane.INFORMATION_MESSAGE);
+                    getDataFromDB(conn, userid);
                 }
-                else if(!query.isStrUnique(conn, eml, "userEmail", TABLE_NAME) && ctr % 2 == 0){
+                else if(!query.isStrUnique(conn, userid, eml, "userEmail", TABLE_NAME) && ctr % 2 == 0){
                     JOptionPane.showMessageDialog(null, "Email is already used. Please enter a different email.", "Error", JOptionPane.INFORMATION_MESSAGE);
+                    getDataFromDB(conn, userid);
                 }
                 else{
                     String stmt = String.format("userFirstN = '%s', userMiddleN = '%s', userLastN = '%s', username = '%s', userPass = '%s', userEmail = '%s', userAdd = '%s', userContact = '%s', userStatus = '%s', userNat = '%s'", fn, mn, ln, un, pw, eml, add, num, stat, nat);

@@ -170,13 +170,11 @@ public class DBQueries {
 
 		try {
 			ResultSet rs = getRow(conn, "*", table, column + " = '" + str + "'");
-                        System.out.println(userID);
-                        System.out.println(rs.getString("userID"));
-                        if(Integer.toString(userID) == rs.getString("userID")){
-                            while (rs.next()) {  
-				if(str.equals(rs.getString(column)))
-					return false;
-				continue;
+                        while (rs.next()) {  
+                            if(!Integer.toString(userID).equals(rs.getString("userID"))){
+                                if(str.equals(rs.getString(column)))
+                                        return false;
+                                continue;
                             } 
                         }	
 		} catch (SQLException e) {  

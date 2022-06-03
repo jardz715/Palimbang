@@ -310,25 +310,31 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                                         }
                             } else {
                                 if(isUnameValid(user2)) {
-                                    if(query.isStrUnique(conn, user2, "username", "UserTable") || user.equals(user2)) {
-                                        int response = JOptionPane.showConfirmDialog(rootPane,
-                                        "Are you sure you want to update?",
-                                        "",
-                                        JOptionPane.OK_CANCEL_OPTION,
-                                        JOptionPane.QUESTION_MESSAGE);
-                                        if(response == 0) {
-                                            String stmt = String.format("username = '%s', userPass = '%s', userEmail = '%s', userFirstN = '%s', userLastN = '%s', userMiddleN = '%s', userPos = '%s', userAppDate = '%s'", user2, pass2, email2, fName2, lName2, mName2, pos2, appDate2);
-                                            String stmt2 = "userID = '" + userField.getText() + "'";
-                                            query.updateRow(conn, TABLE_NAME, stmt, stmt2);
-                                            userField.setText("");
-                                            filterField.setText("");
-                                            deleteField.setText("");
-                                            user = ""; pass = ""; email = ""; fName = ""; lName = ""; mName = ""; pos = ""; appDate = null;
-                                            initTable();
-                                            centerTableComponents();
-                                            loop = false;
+                                    if(query.isStrUnique(conn, user2, "username", "UserTable") || user.equals(user2)) {             
+                                        if(query.isStrUnique(conn, email2, "userEmail", "UserTable") || email.equals(email2)){
+                                            int response = JOptionPane.showConfirmDialog(rootPane,
+                                            "Are you sure you want to update?",
+                                            "",
+                                            JOptionPane.OK_CANCEL_OPTION,
+                                            JOptionPane.QUESTION_MESSAGE);
+                                            if(response == 0) {
+                                                String stmt = String.format("username = '%s', userPass = '%s', userEmail = '%s', userFirstN = '%s', userLastN = '%s', userMiddleN = '%s', userPos = '%s', userAppDate = '%s'", user2, pass2, email2, fName2, lName2, mName2, pos2, appDate2);
+                                                String stmt2 = "userID = '" + userField.getText() + "'";
+                                                query.updateRow(conn, TABLE_NAME, stmt, stmt2);
+                                                userField.setText("");
+                                                filterField.setText("");
+                                                deleteField.setText("");
+                                                user = ""; pass = ""; email = ""; fName = ""; lName = ""; mName = ""; pos = ""; appDate = null;
+                                                initTable();
+                                                centerTableComponents();
+                                                loop = false;
+                                            }
                                         }
-                                    } else {
+                                        else{
+                                            JOptionPane.showMessageDialog(null, "Email is already used. Please enter a different email.", "Error", JOptionPane.INFORMATION_MESSAGE);
+                                        }                                        
+                                    }
+                                    else {
                                         System.out.println(query.getRow(conn, "username", TABLE_NAME, "userID = " + userField.getText()));
                                         JOptionPane.showMessageDialog(null, "Username is already used. Please enter a different username.", "Error", JOptionPane.INFORMATION_MESSAGE);
                                     }

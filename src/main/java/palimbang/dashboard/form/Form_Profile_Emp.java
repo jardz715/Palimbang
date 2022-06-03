@@ -81,40 +81,6 @@ public class Form_Profile_Emp extends javax.swing.JPanel {
         }
     }
     
-    // Method to revert username
-    protected String revertUname(Connection conn, int uID){
-        String origUsername = null;
-        DBQueries query = new DBQueries();
-        String queryStmt = String.format("userID = '%s'", uID);
-        ResultSet rs = query.getRow(conn, "*", TABLE_NAME, queryStmt);
-        
-        try {
-            while(rs.next()){
-                origUsername = rs.getString("username");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return origUsername;
-    }
-    
-    // Method to revert email
-    protected String revertEmail(Connection conn, int uID){
-        String origEmail = null;
-        DBQueries query = new DBQueries();
-        String queryStmt = String.format("userID = '%s'", uID);
-        ResultSet rs = query.getRow(conn, "*", TABLE_NAME, queryStmt);
-        
-        try {
-            while(rs.next()){
-                origEmail = rs.getString("userEmail");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return origEmail;
-    }
-    
     // Method to perform regex check on username
     protected boolean isUnameValid(String user){
         boolean valid = false;
@@ -140,7 +106,6 @@ public class Form_Profile_Emp extends javax.swing.JPanel {
         } else notSame = false;
         return notSame;
     }
-    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -514,18 +479,11 @@ public class Form_Profile_Emp extends javax.swing.JPanel {
             if(isUnameValid(un)){
                 if(!query.isStrUnique(conn, userid, un, "username", TABLE_NAME) && ctr % 2 == 0){
                     JOptionPane.showMessageDialog(null, "Username is already used. Please enter a different username.", "Error", JOptionPane.INFORMATION_MESSAGE);
-                    unameField.setText(revertUname(conn, userid));
-                }
-                else{
-                    String stmt = String.format("username = '%s', userPass = '%s', userEmail = '%s', userAdd = '%s', userContact = '%s', userStatus = '%s', userNat = '%s'", un, pw, eml, add, num, stat, nat);
-                    String stmt2 = "userID = '" + userid + "'";
-                    query.updateRow(conn, TABLE_NAME, stmt, stmt2);
-                }
-                
-                
-                if(!query.isStrUnique(conn, userid, eml, "userEmail", TABLE_NAME) && ctr % 2 == 0){
+                    getDataFromDB(conn, userid);
+                }                        
+                else if(!query.isStrUnique(conn, userid, eml, "userEmail", TABLE_NAME) && ctr % 2 == 0){
                     JOptionPane.showMessageDialog(null, "Email is already used. Please enter a different email.", "Error", JOptionPane.INFORMATION_MESSAGE);
-                    emailField.setText(revertEmail(conn, userid));
+                    getDataFromDB(conn, userid);
                 }
                 else{
                     String stmt = String.format("username = '%s', userPass = '%s', userEmail = '%s', userAdd = '%s', userContact = '%s', userStatus = '%s', userNat = '%s'", un, pw, eml, add, num, stat, nat);
