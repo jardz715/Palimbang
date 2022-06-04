@@ -28,6 +28,8 @@ public class regEmployee extends javax.swing.JFrame {
     
     public regEmployee() throws SQLException {
         initComponents();
+        // get original password field character
+        passChar = passField.getEchoChar();
     }
 
     int xMouse = 0, yMouse = 0;
@@ -35,6 +37,7 @@ public class regEmployee extends javax.swing.JFrame {
     Connection conn = dc.dbCheck();
     final String TABLE_NAME = "UserTable";
     String gender = "";
+    char passChar;
     
     // Method to check if any field on the register form is empty
     protected boolean isFieldEmpty(String a, String b, String c, String d, String e, String f, String g, String h, String i, String j){
@@ -116,11 +119,11 @@ public class regEmployee extends javax.swing.JFrame {
         return period.getYears();
     }
     
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jPanel1 = new javax.swing.JPanel();
         admTitleLabel = new javax.swing.JLabel();
         admSubLabel = new javax.swing.JLabel();
@@ -152,9 +155,11 @@ public class regEmployee extends javax.swing.JFrame {
         femaleBox = new javax.swing.JRadioButton();
         registLabel = new javax.swing.JLabel();
         backLabel = new javax.swing.JLabel();
+        togglePass1 = new javax.swing.JToggleButton();
+        togglePass2 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(204, 204, 204));
+        setBackground(new java.awt.Color(255, 255, 255));
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setUndecorated(true);
         setResizable(false);
@@ -253,7 +258,7 @@ public class regEmployee extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(7, 164, 121));
-        jLabel7.setText("Middle Initial:");
+        jLabel7.setText("Middle Name:");
 
         jLabel8.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(7, 164, 121));
@@ -279,12 +284,36 @@ public class regEmployee extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(7, 164, 121));
         jLabel13.setText("Gender:");
 
-        bday.setBackground(new java.awt.Color(204, 255, 204));
+        userField.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        userField.setForeground(new java.awt.Color(75, 175, 152));
 
+        passField.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        passField.setForeground(new java.awt.Color(75, 175, 152));
+
+        passField2.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        passField2.setForeground(new java.awt.Color(75, 175, 152));
+
+        fNameField.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        fNameField.setForeground(new java.awt.Color(75, 175, 152));
+
+        mNameField.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        mNameField.setForeground(new java.awt.Color(75, 175, 152));
+
+        lNameField.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        lNameField.setForeground(new java.awt.Color(75, 175, 152));
+
+        bday.setBackground(new java.awt.Color(204, 255, 204));
+        bday.setDateFormatString("MMMM dd, yyyy");
+        bday.setFocusable(false);
+        bday.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+
+        emailField.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         emailField.setForeground(new java.awt.Color(75, 175, 152));
 
+        emailField2.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         emailField2.setForeground(new java.awt.Color(75, 175, 152));
 
+        numField.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         numField.setForeground(new java.awt.Color(75, 175, 152));
 
         maleBox.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
@@ -324,6 +353,20 @@ public class regEmployee extends javax.swing.JFrame {
             }
         });
 
+        togglePass1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/search.png"))); // NOI18N
+        togglePass1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                togglePass1ActionPerformed(evt);
+            }
+        });
+
+        togglePass2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/search.png"))); // NOI18N
+        togglePass2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                togglePass2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -332,22 +375,26 @@ public class regEmployee extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
-                                .addGap(99, 99, 99))
+                                .addGap(66, 66, 66))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addGap(107, 107, 107))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGap(74, 74, 74))
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(passField2, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(userField, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(118, 118, 118))
+                            .addComponent(userField, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(togglePass1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(passField2, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(togglePass2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(82, 82, 82))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
@@ -365,23 +412,22 @@ public class regEmployee extends javax.swing.JFrame {
                             .addComponent(jLabel12)
                             .addComponent(jLabel11)
                             .addComponent(jLabel13))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(119, 119, 119))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(maleBox)
                                         .addGap(18, 18, 18)
                                         .addComponent(femaleBox))
-                                    .addComponent(numField, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-                                    .addComponent(emailField2, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-                                    .addComponent(emailField, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-                                    .addComponent(bday, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(119, 119, 119))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(42, 42, 42)
-                                .addComponent(lNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(numField)
+                                    .addComponent(emailField2)
+                                    .addComponent(emailField)
+                                    .addComponent(bday, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE))
+                                .addGap(21, 21, 21))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(registLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -398,11 +444,14 @@ public class regEmployee extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(passField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(togglePass1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(passField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(togglePass2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -437,7 +486,7 @@ public class regEmployee extends javax.swing.JFrame {
                     .addComponent(jLabel13)
                     .addComponent(maleBox)
                     .addComponent(femaleBox))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(registLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(backLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -448,8 +497,8 @@ public class regEmployee extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -496,7 +545,7 @@ public class regEmployee extends javax.swing.JFrame {
         
         if(!isDateEmpty()){
             try {
-                uname = userField.getText();
+                uname = userField.getText().toLowerCase();
                 pword = String.valueOf(passField.getPassword());
                 pword2 = String.valueOf(passField2.getPassword());
                 fname = fNameField.getText();
@@ -520,7 +569,10 @@ public class regEmployee extends javax.swing.JFrame {
                             // added email as unique. cannot have the same email. 
                             }else if(!query.isStrUnique(conn, email, "userEmail", TABLE_NAME)){
                                 JOptionPane.showMessageDialog(null, "Email is already used. Please enter a different email.", "Error", JOptionPane.INFORMATION_MESSAGE);
-                            }else{
+                            }else if(!pnum.matches("[0-9]+") || pnum.length() != 11){
+                                JOptionPane.showMessageDialog(null, "Only numeric input is allowed, and make sure it has 11 digits. EX. 09XXXXXXXXX", "Error", JOptionPane.INFORMATION_MESSAGE);
+                            }
+                            else{
                                 //START INSERTING INTO DB
                                 List<String> regList = new ArrayList<String>();
 
@@ -537,7 +589,7 @@ public class regEmployee extends javax.swing.JFrame {
                                 regList.add(gender);
                                 query.registerUser(conn, regList);
 
-                                // After successfully registering, reset all inputs of register form
+                                // After successfully registering, reset all inputs of register form and return to main menu
                                 JOptionPane.showMessageDialog(null, "Registered Successfully.", "Alert", JOptionPane.INFORMATION_MESSAGE);
                                 userField.setText("");
                                 passField.setText("");
@@ -552,7 +604,15 @@ public class regEmployee extends javax.swing.JFrame {
                                 maleBox.setSelected(false);
                                 femaleBox.setSelected(false);
 
-
+                                Main m;
+                                try {
+                                    this.dispose();
+                                    m = new Main();
+                                    m.setVisible(true);
+                                    m.setLocationRelativeTo(null);
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
@@ -610,6 +670,29 @@ public class regEmployee extends javax.swing.JFrame {
         yMouse = evt.getY();
     }//GEN-LAST:event_jPanel1MousePressed
 
+    private void togglePass1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togglePass1ActionPerformed
+        if(togglePass1.isSelected()){
+            // When toggle button is selected
+            passField.setEchoChar((char) 0);
+        }
+        else{
+            // When toggle button is deselected
+            passField.setEchoChar(passChar);
+        }
+    }//GEN-LAST:event_togglePass1ActionPerformed
+
+    private void togglePass2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togglePass2ActionPerformed
+        // TODO add your handling code here:
+        if(togglePass2.isSelected()){
+            // When toggle button is selected
+            passField2.setEchoChar((char) 0);
+        }
+        else{
+            // When toggle button is deselected
+            passField2.setEchoChar(passChar);
+        }
+    }//GEN-LAST:event_togglePass2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -623,7 +706,6 @@ public class regEmployee extends javax.swing.JFrame {
     private javax.swing.JTextField emailField2;
     private javax.swing.JTextField fNameField;
     private javax.swing.JRadioButton femaleBox;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -646,6 +728,8 @@ public class regEmployee extends javax.swing.JFrame {
     private javax.swing.JPasswordField passField;
     private javax.swing.JPasswordField passField2;
     private javax.swing.JLabel registLabel;
+    private javax.swing.JToggleButton togglePass1;
+    private javax.swing.JToggleButton togglePass2;
     private javax.swing.JTextField userField;
     // End of variables declaration//GEN-END:variables
 }

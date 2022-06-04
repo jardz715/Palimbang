@@ -70,7 +70,7 @@ public class Form_Profile_Emp extends javax.swing.JPanel {
                 genderField.setText(rs.getString("userGender"));
                 emailField.setText(rs.getString("userEmail"));
                 addField.setText(rs.getString("userAdd"));
-                numField.setText(rs.getString("userContact"));
+                numField.setText("0" + rs.getString("userContact"));
                 appDateField.setText(rs.getString("userAppDate"));
                 statusField.setText(rs.getString("userStatus"));
                 natField.setText(rs.getString("userNat"));
@@ -467,7 +467,7 @@ public class Form_Profile_Emp extends javax.swing.JPanel {
             setCorrectFieldColor(unameField, passField, emailField, addField, numField, statusField, natField);
             
             //Get input from field then update database
-            un = unameField.getText();
+            un = unameField.getText().toLowerCase();
             pw = String.valueOf(passField.getPassword());
             eml = emailField.getText();
             add = addField.getText();
@@ -483,6 +483,10 @@ public class Form_Profile_Emp extends javax.swing.JPanel {
                 }                        
                 else if(!query.isStrUnique(conn, userid, eml, "userEmail", TABLE_NAME) && ctr % 2 == 0){
                     JOptionPane.showMessageDialog(null, "Email is already used. Please enter a different email.", "Error", JOptionPane.INFORMATION_MESSAGE);
+                    getDataFromDB(conn, userid);
+                }
+                else if(!num.matches("[0-9]+") || num.length() != 11){
+                    JOptionPane.showMessageDialog(null, "Only numeric input is allowed, and make sure it has 11 digits. EX. 09XXXXXXXXX", "Error", JOptionPane.INFORMATION_MESSAGE);
                     getDataFromDB(conn, userid);
                 }
                 else{

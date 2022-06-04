@@ -1,10 +1,12 @@
 package palimbang.dashboard.component;
 
+import com.sun.glass.events.KeyEvent;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -154,10 +156,20 @@ public class Menu_Main_Right extends javax.swing.JPanel {
         unameField.setFont(new java.awt.Font("Nirmala UI Semilight", 1, 18)); // NOI18N
         unameField.setHint("Username");
         unameField.setPrefixIcon(new javax.swing.ImageIcon("resources/username.png"));
+        unameField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                unameFieldKeyPressed(evt);
+            }
+        });
 
         passField.setFont(new java.awt.Font("Nirmala UI Semilight", 1, 18)); // NOI18N
         passField.setHint("Password");
         passField.setPrefixIcon(new javax.swing.ImageIcon("resources/pass.png"));
+        passField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passFieldKeyPressed(evt);
+            }
+        });
 
         regLabel.setFont(new java.awt.Font("Nirmala UI", 0, 18)); // NOI18N
         regLabel.setForeground(new java.awt.Color(7, 164, 121));
@@ -277,7 +289,7 @@ public class Menu_Main_Right extends javax.swing.JPanel {
 
     private void loginLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLabelMouseClicked
         String un, pw;
-        un = unameField.getText().toString();
+        un = unameField.getText().toLowerCase();
         pw = String.valueOf(passField.getPassword());
 
         if(isEmpty(un , pw)){
@@ -340,6 +352,20 @@ public class Menu_Main_Right extends javax.swing.JPanel {
             System.exit(0);
         }
     }//GEN-LAST:event_jLabelCloseMouseClicked
+
+    private void unameFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_unameFieldKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            MouseEvent e = null;
+            loginLabelMouseClicked(e);
+        }
+    }//GEN-LAST:event_unameFieldKeyPressed
+
+    private void passFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passFieldKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            MouseEvent e = null;
+            loginLabelMouseClicked(e);
+        }
+    }//GEN-LAST:event_passFieldKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

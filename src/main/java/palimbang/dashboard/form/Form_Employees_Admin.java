@@ -274,7 +274,7 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                     if (result == JOptionPane.OK_OPTION) {
                         // Gets input from the edit fields
-                String  user2 = field1.getText(), pass2 = field2.getText(), email2 = field3.getText(), 
+                String  user2 = field1.getText().toLowerCase(), pass2 = field2.getText(), email2 = field3.getText(), 
                         fName2 = field4.getText(), lName2 = field5.getText(), mName2 = field6.getText(),
                         pos2 = field7.getText();
                 DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");

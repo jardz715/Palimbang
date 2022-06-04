@@ -417,7 +417,7 @@ public class Form_Profile_Adm extends javax.swing.JPanel {
             fn = fNameField.getText();
             mn = mNameField.getText();
             ln = lNameField.getText();
-            un = unameField.getText();
+            un = unameField.getText().toLowerCase();
             pw = String.valueOf(passField.getPassword());
             eml = emailField.getText();
             add = addField.getText();

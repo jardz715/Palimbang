@@ -279,7 +279,7 @@ public class Form_Reg_Adm extends javax.swing.JPanel {
         fname = fNameField.getText();
         mname = mNameField.getText();
         lname = lNameField.getText();
-        uname = unameField.getText();
+        uname = unameField.getText().toLowerCase();
         pword = String.valueOf(passField.getPassword());
         pword2 = String.valueOf(passField2.getPassword());
         eml = emailField.getText();

@@ -124,6 +124,9 @@
               <Connection code="new javax.swing.ImageIcon(&quot;resources/username.png&quot;)" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="unameFieldKeyPressed"/>
+          </Events>
         </Component>
         <Component class="swing.MyPasswordField" name="passField">
           <Properties>
@@ -135,6 +138,9 @@
               <Connection code="new javax.swing.ImageIcon(&quot;resources/pass.png&quot;)" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="passFieldKeyPressed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="regLabel">
           <Properties>
