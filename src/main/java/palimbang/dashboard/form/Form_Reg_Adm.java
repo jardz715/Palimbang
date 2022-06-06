@@ -299,8 +299,6 @@ public class Form_Reg_Adm extends javax.swing.JPanel {
                         // added email as unique. cannot have the same email.
                     }else if(!query.isStrUnique(conn, eml, "userEmail", TABLE_NAME)){
                         JOptionPane.showMessageDialog(null, "Email is already used. Please enter a different email.", "Error", JOptionPane.INFORMATION_MESSAGE);
-                    }else if(!cnum.matches("[0-9]+") || cnum.length() != 11){
-                        JOptionPane.showMessageDialog(null, "Only numeric input is allowed, and make sure it has 11 digits. EX. 09XXXXXXXXX", "Error", JOptionPane.INFORMATION_MESSAGE);
                     }else{
                         //START INSERTING INTO DB
                         List<String> admRegList = new ArrayList<String>();
