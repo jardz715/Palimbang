@@ -42,7 +42,7 @@ public class Form_Time_Emp extends javax.swing.JPanel {
         
         ResultSet rs = query.getRow(conn, "userIn, userOut", "UserTable", "userID =" + userID);
         ResultSet rs2 = query.getRow(conn, "timeIn", "TimeTable", "userID =" + userID);
-        ResultSet rs3 = query.getRow(conn, "timeHistIn as TimeIn, timeHistOut as TimeOut, timeHistDiff as TotalTimeInMinutes, timeHistOT as Overtime", "TimeHistoryTable", "userID =" + userid);
+        ResultSet rs3 = query.getRow(conn, "timeHistIn as 'Time In', timeHistOut as 'Time Out', timeHistDiff as 'Total Time In Minutes', timeHistOT as 'Overtime'", "TimeHistoryTable", "userID =" + userid);
         try{
             timeInLabel.setText("Time In: " + rs.getString("userIn"));
             timeOutLabel.setText("Time Out: " + rs.getString("userOut"));
@@ -116,6 +116,7 @@ public class Form_Time_Emp extends javax.swing.JPanel {
         printButton = new javax.swing.JToggleButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable = new palimbang.dashboard.swing.Table();
+        refreshButton = new javax.swing.JToggleButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -176,6 +177,15 @@ public class Form_Time_Emp extends javax.swing.JPanel {
             jTable.getColumnModel().getColumn(3).setResizable(false);
         }
 
+        refreshButton.setBackground(new java.awt.Color(153, 153, 153));
+        refreshButton.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        refreshButton.setText("Refresh Table");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -191,13 +201,17 @@ public class Form_Time_Emp extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(jScrollPane2)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(timeInLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -217,6 +231,11 @@ public class Form_Time_Emp extends javax.swing.JPanel {
             Logger.getLogger(Form_Time_Emp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_printButtonActionPerformed
+
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        initTable(getDataFromDB(conn, userid));
+        centerTableComponents();
+    }//GEN-LAST:event_refreshButtonActionPerformed
     
     public void export(JTable table, File file){
     try
@@ -242,6 +261,7 @@ public class Form_Time_Emp extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private palimbang.dashboard.swing.Table jTable;
     private javax.swing.JToggleButton printButton;
+    private javax.swing.JToggleButton refreshButton;
     private javax.swing.JLabel timeInLabel;
     private javax.swing.JLabel timeOutLabel;
     // End of variables declaration//GEN-END:variables

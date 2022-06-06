@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import main.DBQueries;
 import main.Main;
 import main.TimeInTimeOut;
 import palimbang.dashboard.form.Form_Doc_Emp;
@@ -227,31 +228,40 @@ public class Main_Employee extends javax.swing.JFrame {
     }//GEN-LAST:event_timeOutMouseReleased
 
     private void timeInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timeInActionPerformed
-        int response = JOptionPane.showConfirmDialog(rootPane,
+        DBQueries query = new DBQueries();
+        if(!query.isIDTimedIn(conn, userid)){
+            int response = JOptionPane.showConfirmDialog(rootPane,
             "Are you sure you want to time in now?",
             "",
             JOptionPane.OK_CANCEL_OPTION,
             JOptionPane.QUESTION_MESSAGE);
-        if(response == 0){
-            TimeInTimeOut t = new TimeInTimeOut();  
-            t.timeIn(conn, userid);
-            timeIn.setSelected(true);
-            TimeIn = true;
-	}
+            if(response == 0){
+                TimeInTimeOut t = new TimeInTimeOut();  
+                t.timeIn(conn, userid);
+                timeIn.setSelected(true);
+                TimeIn = true;
+            }
+        }
+        
     }//GEN-LAST:event_timeInActionPerformed
 
     private void timeOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timeOutActionPerformed
-        int response = JOptionPane.showConfirmDialog(rootPane,
+        DBQueries query = new DBQueries();
+        if(query.isIDTimedIn(conn, userid)){
+            int response = JOptionPane.showConfirmDialog(rootPane,
             "Are you sure you want to time out now?",
             "",
             JOptionPane.OK_CANCEL_OPTION,
             JOptionPane.QUESTION_MESSAGE);
-        if(response == 0){
-            TimeInTimeOut t = new TimeInTimeOut();   
-            t.timeOut(conn, userid);
-            timeOut.setSelected(true);
-            TimeOut = true;
+            if(response == 0){
+                TimeInTimeOut t = new TimeInTimeOut();   
+                t.timeOut(conn, userid);
+                timeOut.setSelected(true);
+                TimeOut = true;
+            }
         }
+        
+        
     }//GEN-LAST:event_timeOutActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

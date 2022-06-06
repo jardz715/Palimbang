@@ -312,7 +312,7 @@ public class DBQueries {
 		return 0;
 	}
         
-        protected boolean isIDTimedIn(Connection conn, int ID) {
+        public boolean isIDTimedIn(Connection conn, int ID) {
 		ResultSet rs = getRow(conn, "userID", "TimeTable", ID + " = userID" );
 		try {
                     return rs.next() != false;
