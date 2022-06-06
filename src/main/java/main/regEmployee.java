@@ -570,7 +570,7 @@ public class regEmployee extends javax.swing.JFrame {
                             }else if(!query.isStrUnique(conn, email, "userEmail", TABLE_NAME)){
                                 JOptionPane.showMessageDialog(null, "Email is already used. Please enter a different email.", "Error", JOptionPane.INFORMATION_MESSAGE);
                             }else if(!pnum.matches("[0-9]+") || pnum.length() != 11){
-                                JOptionPane.showMessageDialog(null, "Only numeric input is allowed, and make sure it has 11 digits. EX. 09XXXXXXXXX", "Error", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "Only numeric input is allowed for the contact number, and make sure it has 11 digits. EX. 09XXXXXXXXX", "Error", JOptionPane.INFORMATION_MESSAGE);
                             }
                             else{
                                 //START INSERTING INTO DB
