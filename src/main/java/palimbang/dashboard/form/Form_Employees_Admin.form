@@ -25,16 +25,14 @@
               <Component id="userEdit" min="-2" pref="75" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="userField" min="-2" pref="150" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="userFilter" min="-2" pref="75" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="filterField" min="-2" pref="150" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="userDelete" min="-2" pref="75" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="deleteField" min="-2" pref="150" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
-              <Component id="resetTable" min="-2" pref="100" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="userFilter" min="-2" pref="75" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="253" max="-2" attributes="0"/>
+              <Component id="resetTable" min="-2" pref="105" max="-2" attributes="0"/>
           </Group>
           <Component id="jScrollPane1" alignment="0" min="-2" pref="921" max="-2" attributes="0"/>
       </Group>
@@ -47,11 +45,12 @@
                       <Component id="userEdit" alignment="3" pref="37" max="32767" attributes="0"/>
                       <Component id="userField" alignment="3" pref="35" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="filterField" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
-                  <Component id="userFilter" min="-2" pref="35" max="-2" attributes="0"/>
                   <Component id="userDelete" min="-2" pref="35" max="-2" attributes="0"/>
                   <Component id="deleteField" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
-                  <Component id="resetTable" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                      <Component id="resetTable" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="userFilter" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jScrollPane1" pref="421" max="32767" attributes="0"/>
@@ -116,14 +115,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userFilterActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="palimbang.dashboard.swing.MyTextFieldAdmin" name="filterField">
-      <Properties>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="66" green="66" red="66" type="rgb"/>
-        </Property>
-        <Property name="hint" type="java.lang.String" value="Email"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="resetTable">
       <Properties>

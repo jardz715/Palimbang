@@ -61,6 +61,20 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
         table1.setEnabled(false);
     }
     
+    private void initTableWithQuery(ResultSet rs) {
+        try {
+            table1.setModel(DbUtils.resultSetToTableModel(rs));
+            DefaultTableModel model = (DefaultTableModel) table1.getModel();
+            int emptyCellCount = 10 - table1.getRowCount();
+            if(table1.getRowCount() < 10)
+                for(int i=0; i<emptyCellCount; i++)
+                    model.addRow(new Object[] {});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        table1.setEnabled(false);
+    }
+    
     private void centerTableComponents() {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( JLabel.CENTER );
@@ -124,7 +138,6 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
         userEdit = new javax.swing.JButton();
         userField = new palimbang.dashboard.swing.MyTextFieldAdmin();
         userFilter = new javax.swing.JButton();
-        filterField = new palimbang.dashboard.swing.MyTextFieldAdmin();
         resetTable = new javax.swing.JButton();
         userDelete = new javax.swing.JButton();
         deleteField = new palimbang.dashboard.swing.MyTextFieldAdmin();
@@ -174,9 +187,6 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
             }
         });
 
-        filterField.setForeground(new java.awt.Color(102, 102, 102));
-        filterField.setHint("Email");
-
         resetTable.setBackground(new java.awt.Color(153, 153, 153));
         resetTable.setText("Reset Table");
         resetTable.addActionListener(new java.awt.event.ActionListener() {
@@ -204,16 +214,14 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                 .addComponent(userEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(userFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(userDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(deleteField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(105, 105, 105)
-                .addComponent(resetTable, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(userFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(253, 253, 253)
+                .addComponent(resetTable, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 921, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
@@ -223,11 +231,11 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
                         .addComponent(userEdit, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
                         .addComponent(userField, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
-                    .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(userDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(resetTable, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(resetTable, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(userFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE))
         );
@@ -301,7 +309,7 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                                             String stmt2 = "userID = '" + userField.getText() + "'";
                                             query.updateRow(conn, TABLE_NAME, stmt, stmt2);
                                             userField.setText("");
-                                            filterField.setText("");
+//                                            filterField.setText("");
                                             deleteField.setText("");
                                             user = ""; pass = ""; email = ""; fName = ""; lName = ""; mName = ""; pos = ""; 
                                             initTable();
@@ -322,7 +330,7 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                                                 String stmt2 = "userID = '" + userField.getText() + "'";
                                                 query.updateRow(conn, TABLE_NAME, stmt, stmt2);
                                                 userField.setText("");
-                                                filterField.setText("");
+//                                                filterField.setText("");
                                                 deleteField.setText("");
                                                 user = ""; pass = ""; email = ""; fName = ""; lName = ""; mName = ""; pos = ""; appDate = null;
                                                 initTable();
@@ -364,33 +372,45 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
     }//GEN-LAST:event_userEditActionPerformed
 
     private void userFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userFilterActionPerformed
-        if(!filterField.getText().equals("")) {
-            if(!query.isStrUnique(conn, filterField.getText(), "userEmail", "UserTable") && !filterField.getText().equals("0")) {
-                try {
-                String sql = "Select userID, username, userEmail, userFirstN, userLastN, userPos, userAppDate from UserTable where userEmail = ?";
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, filterField.getText());
-                ResultSet rs = pstmt.executeQuery();
-                table1.setModel(DbUtils.resultSetToTableModel(rs));
-                DefaultTableModel model = (DefaultTableModel) table1.getModel();
-                int emptyCellCount = 10 - table1.getRowCount();
-                if(table1.getRowCount() < 10)
-                    for(int i=0; i<emptyCellCount; i++)
-                        model.addRow(new Object[] {});
+        Form_Employees_Admin_Search search;
+        try {
+            search = new Form_Employees_Admin_Search(conn);
+            if(search.returnSuccess()) {
+                initTableWithQuery(search.returnQuery());
                 centerTableComponents();
-                filterField.setText("");
-                userField.setText("");
-                deleteField.setText("");
-                JOptionPane.showMessageDialog(null, "Table has been filtered!", "", JOptionPane.INFORMATION_MESSAGE); 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Email is invalid!", "Error", JOptionPane.INFORMATION_MESSAGE); 
+                JOptionPane.showMessageDialog(null, "The table has been filtered!", "Success", JOptionPane.INFORMATION_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "No input provided!", "Error", JOptionPane.INFORMATION_MESSAGE);   
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Form_Employees_Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
+//        if(!filterField.getText().equals("")) {
+//            if(!query.isStrUnique(conn, filterField.getText(), "userEmail", "UserTable") && !filterField.getText().equals("0")) {
+//                try {
+//                String sql = "Select userID, username, userEmail, userFirstN, userLastN, userPos, userAppDate from UserTable where userEmail = ?";
+//                PreparedStatement pstmt = conn.prepareStatement(sql);
+//                pstmt.setString(1, filterField.getText());
+//                ResultSet rs = pstmt.executeQuery();
+//                table1.setModel(DbUtils.resultSetToTableModel(rs));
+//                DefaultTableModel model = (DefaultTableModel) table1.getModel();
+//                int emptyCellCount = 10 - table1.getRowCount();
+//                if(table1.getRowCount() < 10)
+//                    for(int i=0; i<emptyCellCount; i++)
+//                        model.addRow(new Object[] {});
+//                centerTableComponents();
+//                filterField.setText("");
+//                userField.setText("");
+//                deleteField.setText("");
+//                JOptionPane.showMessageDialog(null, "Table has been filtered!", "", JOptionPane.INFORMATION_MESSAGE); 
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            } else {
+//                JOptionPane.showMessageDialog(null, "Email is invalid!", "Error", JOptionPane.INFORMATION_MESSAGE); 
+//            }
+//        } else {
+//            JOptionPane.showMessageDialog(null, "No input provided!", "Error", JOptionPane.INFORMATION_MESSAGE);   
+//        }
         
     }//GEN-LAST:event_userFilterActionPerformed
 
@@ -437,7 +457,7 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                         pstmt3.executeUpdate();
                         
                         userField.setText("");
-                        filterField.setText("");
+//                        filterField.setText("");
                         deleteField.setText("");
                         initTable();
                         centerTableComponents();
@@ -457,7 +477,6 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private palimbang.dashboard.swing.MyTextFieldAdmin deleteField;
-    private palimbang.dashboard.swing.MyTextFieldAdmin filterField;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton resetTable;
     private palimbang.dashboard.swing.Table table1;
