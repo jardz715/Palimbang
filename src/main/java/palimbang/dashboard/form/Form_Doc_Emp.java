@@ -143,6 +143,7 @@ public class Form_Doc_Emp extends javax.swing.JPanel {
                             int response3 = JOptionPane.showConfirmDialog(null, "Resetting file will remove file's submissions. Do you wish to continue?." , "RESET", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                             if(response3 == 0){
                                 query.updateRow(conn, "DocumentTable", "docSubmitted = 0", "docID = " + rs.getString("docID"));
+                                query.updateRow(conn, "DocumentTable", "docValidated = 0", "docID = " + rs.getString("docID"));
                                 int response2 = JOptionPane.showConfirmDialog(null, "Are you sure you want to reset " + jTable1.getValueAt(row, column) + " as default?." , "RESET", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                                 if(response2 == 0 )
                                     launchReset(rs);
