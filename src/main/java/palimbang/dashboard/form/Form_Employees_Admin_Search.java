@@ -1,5 +1,6 @@
 package palimbang.dashboard.form;
 
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,13 +12,12 @@ import main.DBQueries;
 
 public class Form_Employees_Admin_Search extends javax.swing.JPanel {
 
-    Connection conn;
     private boolean textFieldEnabled = true, success = true;
     private String textFieldInput, selectedCategory;
     final String table = "UserTable";
+    private ResultSet rs;
     
     public Form_Employees_Admin_Search(Connection temp) throws SQLException {
-        conn = temp;
         initComponents();
         dateChooser.setVisible(false);
         boolean loop = true;
@@ -25,40 +25,58 @@ public class Form_Employees_Admin_Search extends javax.swing.JPanel {
             int result = JOptionPane.showConfirmDialog(null, this, "Search Category",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                     if (result == JOptionPane.OK_OPTION) {
-                        if(textFieldEnabled) {
-                            if(comboBox.getSelectedItem().toString().equals("UserID") && textField.getText().equals("0")) {
-                                JOptionPane.showMessageDialog(null, "User ID is invalid!", "Error", JOptionPane.INFORMATION_MESSAGE);
-                                setSuccess(false);
-                            } else {
-                                if(textField.getText().equals("")) {
-                                    JOptionPane.showMessageDialog(null, "Please provide an input!", "Error", JOptionPane.INFORMATION_MESSAGE);
+                        if(textField.getText().equals("") && dateChooser.getDate() == null) {
+                            JOptionPane.showMessageDialog(null, "Please provide an input!", "Error", JOptionPane.INFORMATION_MESSAGE);
+                            setSuccess(false);
+                        } else {
+                            if(textFieldEnabled) {
+                                if(comboBox.getSelectedItem().toString().equals("UserID") && textField.getText().equals("0")) {
+                                    JOptionPane.showMessageDialog(null, "User ID is invalid!", "Error", JOptionPane.INFORMATION_MESSAGE);
                                     setSuccess(false);
+                                } else if(comboBox.getSelectedItem().toString().equals("Position")) {
+                                        if(!databaseCheck(textField.getText(), setCategory(comboBox.getSelectedItem().toString()), temp)) {
+                                            setText(textField.getText());
+                                            setCategory(comboBox.getSelectedItem().toString());
+                                            setQuery(temp);
+                                            loop = false;
+                                            setSuccess(true);
+                                            } else {
+                                                JOptionPane.showMessageDialog(null, "The input is not present in the database!", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+                                            } 
                                 } else {
-                                    if(!databaseCheck(textField.getText(), setCategory(comboBox.getSelectedItem().toString()))) {
+                                    if(comboBox.getSelectedItem().toString().equals("Username") || comboBox.getSelectedItem().toString().equals("Email")) {
+                                       if(!databaseCheck(textField.getText().toLowerCase(), setCategory(comboBox.getSelectedItem().toString()), temp)) {
+                                        setText(textField.getText().toLowerCase());
+                                        setCategory(comboBox.getSelectedItem().toString());
+                                        setQuery(temp);
+                                        loop = false;
+                                        setSuccess(true);
+                                        } else {
+                                            JOptionPane.showMessageDialog(null, "The input is not present in the database!", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+                                        } 
+                                    } else {
+                                        if(!databaseCheck(textField.getText(), setCategory(comboBox.getSelectedItem().toString()), temp)) {
                                         setText(textField.getText());
                                         setCategory(comboBox.getSelectedItem().toString());
+                                        setQuery(temp);
+                                        loop = false;
+                                        setSuccess(true);
+                                        } else {
+                                            JOptionPane.showMessageDialog(null, "The input is not present in the database!", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+                                        } 
+                                    }
+                                }
+                            } else {
+                                    DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+                                    if(!databaseCheck(dateFormat.format(dateChooser.getDate()), setCategory(comboBox.getSelectedItem().toString()), temp)) {
+                                        setText(dateFormat.format(dateChooser.getDate()));
+                                        setCategory(comboBox.getSelectedItem().toString());
+                                        setQuery(temp);
                                         loop = false;
                                         setSuccess(true);
                                     } else {
                                         JOptionPane.showMessageDialog(null, "The input is not present in the database!", "Invalid", JOptionPane.INFORMATION_MESSAGE);
                                     }
-                                }
-                            }
-                            
-                        } else {
-                            if(dateChooser.getDate() == null) {
-                                    JOptionPane.showMessageDialog(null, "Please provide an input!", "Error", JOptionPane.INFORMATION_MESSAGE);
-                                    setSuccess(false);
-                            } else {
-                                DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-                                if(!databaseCheck(dateFormat.format(dateChooser.getDate()), setCategory(comboBox.getSelectedItem().toString()))) {
-                                    setText(dateFormat.format(dateChooser.getDate()));
-                                    setCategory(comboBox.getSelectedItem().toString());
-                                    loop = false;
-                                    setSuccess(true);
-                                } else {
-                                    JOptionPane.showMessageDialog(null, "The input is not present in the database!", "Invalid", JOptionPane.INFORMATION_MESSAGE);
-                                }
                             }
                         }
                     } else {
@@ -66,30 +84,21 @@ public class Form_Employees_Admin_Search extends javax.swing.JPanel {
                         setSuccess(false);
                     }
         }while(loop);
-        
     }
-    
-    public String returnText() {
-        return textFieldInput;
-    }
-    
-    public String returnCategory() {
-        return selectedCategory;
-    }
-    
+
     public Boolean returnSuccess() {
         return success;
     }
     
-    public Boolean returnTextFieldEnabled() {
-        return success;
+    public ResultSet returnQuery() {
+        return rs;
     }
     
-    public ResultSet returnQuery() throws SQLException {
+    public void setQuery(Connection temp) throws SQLException {
         String stmt = String.format("Select userID, username, userEmail, userFirstN, userLastN, userPos, userAppDate from UserTable where %s = '%s'", selectedCategory, textFieldInput);
-        PreparedStatement pstmt = conn.prepareStatement(stmt);
-        ResultSet rs = pstmt.executeQuery();
-        return rs;
+        PreparedStatement pstmt = temp.prepareStatement(stmt);
+        ResultSet rs1 = pstmt.executeQuery();
+        rs = rs1;
     }
     
     public void setText(String input) {
@@ -123,9 +132,9 @@ public class Form_Employees_Admin_Search extends javax.swing.JPanel {
         return selectedCategory;
     }
     
-    public boolean databaseCheck(String input, String category) {
+    public boolean databaseCheck(String input, String category, Connection temp) {
         DBQueries query = new DBQueries();
-        return query.isStrUnique(conn, input, category, table);
+        return query.isStrUnique(temp, input, category, table);
     }
 
     @SuppressWarnings("unchecked")
@@ -155,11 +164,11 @@ public class Form_Employees_Admin_Search extends javax.swing.JPanel {
         String selected = comboBox.getSelectedItem().toString();
         if(!selected.equals("Appointment Date")) {
             textField.setVisible(true);
-            dateChooser.setVisible(false);
+            dateChooser.setVisible(false); dateChooser.setDate(null);
             setTextFieldEnabled(true);
         } else {
-            textField.setVisible(false);
-            dateChooser.setVisible(true);
+            textField.setVisible(false); textField.setText("");
+            dateChooser.setVisible(true); 
             setTextFieldEnabled(false);
         }
     }//GEN-LAST:event_comboBoxActionPerformed
