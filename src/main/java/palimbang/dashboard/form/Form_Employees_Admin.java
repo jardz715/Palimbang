@@ -120,8 +120,8 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                 pass = String.valueOf(rs.getObject("userPass"));
                 email = rs.getString("userEmail");
                 pos = rs.getString("userPos");
-//                DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
                 appDate = rs.getString("userAppDate");
+                System.out.println(appDate);
             }
         } catch (SQLException ex) {
             Logger.getLogger(Form_Employees_Admin.class.getName()).log(Level.SEVERE, null, ex);
@@ -255,6 +255,7 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                     JTextField field6 = new JTextField(mName);
                     JTextField field7 = new JTextField(pos);
                     JDateChooser appDateChooser = new JDateChooser();
+                    appDateChooser.getDateEditor().setDateFormatString("MMMM dd, yyyy");
                     ((JTextField) appDateChooser.getDateEditor().getUiComponent()).setText(appDate);
                     ((JTextField) appDateChooser.getDateEditor().getUiComponent()).setForeground(java.awt.Color.black);
                     field1.setPreferredSize(new Dimension( 200, 24 ));
@@ -285,7 +286,7 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                 String  user2 = field1.getText().toLowerCase(), pass2 = field2.getText(), email2 = field3.getText(), 
                         fName2 = field4.getText(), lName2 = field5.getText(), mName2 = field6.getText(),
                         pos2 = field7.getText();
-                DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+                DateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
                 String appDate2;
                 if (appDateChooser.getDate() == null){          // if no date is selected
                     appDate2 = "";                              // set to blank to prevent nullptrexception
