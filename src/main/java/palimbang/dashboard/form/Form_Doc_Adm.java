@@ -264,16 +264,29 @@ public class Form_Doc_Adm extends javax.swing.JPanel {
     }//GEN-LAST:event_searchFieldActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        String username = searchField.getText();
+        String username = searchField.getText().toLowerCase();
         ResultSet rs = query.getRow(conn, "userID", "UserTable", "username = '" + username + "'");
         try{
             if(rs.next() != false){
                 String userDocID = rs.getString("userID");
                 ResultSet rs2 = query.getRow(conn, "docTitle as Document_Title, docSubmitted as Submitted, docValidated as HR_Signed", "DocumentTable", "userID = " + userDocID );
-                jTable1 = new JTable(startTable(rs2));
+                DefaultTableModel model1 = startTable(rs2);
+                jTable1 = new JTable(model1);
                 jTable1.setDefaultEditor(Object.class, null);
                 jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 jScrollPane3.setViewportView(jTable1);
+                for(int i = 1; i <= model1.getRowCount(); i++){
+                    for(int j = 1; j <= model1.getColumnCount(); j++){
+                        if(j == 1){
+                        }else{
+                            if(model1.getValueAt(i-1,j-1).equals(0)){
+                                model1.setValueAt("No", i-1, j-1);
+                            }else{
+                                model1.setValueAt("Yes", i-1, j-1);
+                            }
+                        }
+                    }
+                }
             }else{
                 JOptionPane.showMessageDialog(null, "Username cannot be found in the Database.", "Error", JOptionPane.INFORMATION_MESSAGE);
             }

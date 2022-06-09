@@ -159,7 +159,7 @@ public class Form_Time_Adm extends javax.swing.JPanel {
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         DBQueries query = new DBQueries();
-        String username = searchField.getText();
+        String username = searchField.getText().toLowerCase();
         ResultSet rs = query.getRow(conn, "userID", "UserTable", "username = '" + username + "'");
         try{
             if(rs.next() != false){

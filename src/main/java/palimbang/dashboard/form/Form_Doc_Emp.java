@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -42,14 +41,28 @@ public class Form_Doc_Emp extends javax.swing.JPanel {
         ResultSet rs = query.selectFromTable(conn, "dTemplateTitle as Document_Title", "DocTemplateTable");
         ResultSet rs2 = query.getRow(conn, "docTitle as Document_Title, docSubmitted as Submitted, docValidated as HR_Signed", "DocumentTable", "userID = " + userid );
         try{
-            jTable = new JTable(startTable(rs));
+            DefaultTableModel model = startTable(rs);
+            jTable = new JTable(model);
             jTable.setDefaultEditor(Object.class, null);
             jTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             jScrollPane2.setViewportView(jTable);
-            jTable1 = new JTable(startTable(rs2));
+            DefaultTableModel model1 = startTable(rs2);
+            jTable1 = new JTable(model1);
             jTable1.setDefaultEditor(Object.class, null);
             jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             jScrollPane3.setViewportView(jTable1);
+            for(int i = 1; i <= model1.getRowCount(); i++){
+                for(int j = 1; j <= model1.getColumnCount(); j++){
+                    if(j == 1){
+                    }else{
+                        if(model1.getValueAt(i-1,j-1).equals(0)){
+                            model1.setValueAt("No", i-1, j-1);
+                        }else{
+                            model1.setValueAt("Yes", i-1, j-1);
+                        }
+                    }
+                }
+            }
         }catch (SQLException e) {  
             e.printStackTrace();
         }
