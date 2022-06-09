@@ -234,6 +234,11 @@ public class Form_Time_Emp extends javax.swing.JPanel {
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         initTable(getDataFromDB(conn, userid));
+        try {
+            dataTable = new JTable(startTable(getDataFromDB(conn, userid)));
+        } catch (SQLException ex) {
+            Logger.getLogger(Form_Time_Emp.class.getName()).log(Level.SEVERE, null, ex);
+        }
         centerTableComponents();
     }//GEN-LAST:event_refreshButtonActionPerformed
     
@@ -248,7 +253,12 @@ public class Form_Time_Emp extends javax.swing.JPanel {
             fw.write("\n");
             for(int i=0; i < m.getRowCount(); i++) {
                 for(int j=0; j < m.getColumnCount(); j++) {
-                    fw.write(m.getValueAt(i,j).toString()+"\t");
+                    if(m.getValueAt(i, j) != null){
+                        fw.write(m.getValueAt(i,j).toString()+"\t");
+                    }else{
+                        fw.write(" ");
+                    }
+                    
                 }
                 fw.write("\n");
             } }

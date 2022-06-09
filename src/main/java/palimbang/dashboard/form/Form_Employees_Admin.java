@@ -2,8 +2,12 @@ package palimbang.dashboard.form;
 
 import com.toedter.calendar.JDateChooser;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +21,7 @@ import java.util.regex.Pattern;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -74,6 +79,30 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
         }
         table1.setEnabled(false);
     }
+    
+    public void export(JTable table, File file){
+    try
+    {
+      TableModel m = table.getModel();
+        try (FileWriter fw = new FileWriter(file)) {
+            for(int i = 0; i < m.getColumnCount(); i++){
+                fw.write(m.getColumnName(i) + "\t");
+            }
+            fw.write("\n");
+            for(int i=0; i < m.getRowCount(); i++) {
+                for(int j=0; j < m.getColumnCount(); j++) {
+                    if(m.getValueAt(i, j) != null){
+                        fw.write(m.getValueAt(i,j).toString()+"\t");
+                    }else{
+                        fw.write(" ");
+                    }
+                    
+                }
+                fw.write("\n");
+            } }
+    }
+    catch(IOException e){ System.out.println(e); }
+  }
     
     private void centerTableComponents() {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -141,6 +170,7 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
         resetTable = new javax.swing.JButton();
         userDelete = new javax.swing.JButton();
         deleteField = new palimbang.dashboard.swing.MyTextFieldAdmin();
+        downloadButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -206,6 +236,14 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
         deleteField.setForeground(new java.awt.Color(102, 102, 102));
         deleteField.setHint("User ID");
 
+        downloadButton.setBackground(new java.awt.Color(153, 153, 153));
+        downloadButton.setText("Download");
+        downloadButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                downloadButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -220,7 +258,9 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                 .addComponent(deleteField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(userFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 253, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
+                .addComponent(downloadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(resetTable, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 921, Short.MAX_VALUE)
@@ -236,7 +276,8 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                     .addComponent(deleteField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(resetTable, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(userFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(userFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(downloadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE))
         );
@@ -448,9 +489,22 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_userDeleteActionPerformed
 
+    
+    private void downloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadButtonActionPerformed
+        File file = new File("resources\\documents\\Employees.xls");
+        export(table1, file);
+        try {
+            Desktop.getDesktop().open(file);
+        } catch (IOException ex) {
+            Logger.getLogger(Form_Time_Emp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+              
+    }//GEN-LAST:event_downloadButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private palimbang.dashboard.swing.MyTextFieldAdmin deleteField;
+    private javax.swing.JButton downloadButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton resetTable;
     private palimbang.dashboard.swing.Table table1;
