@@ -1,11 +1,11 @@
-userID	username	userEmail	userFirstN	userLastN	userPos	userAppDate	
-2	trial2	asdasd@gmail.com	a	a	Employee	05-10-2022	
-3	zxc123	zxc	zxc	zxc	Master	05-07-2021	
-4	Fluerce2	asdasd	asdasd	asdasd	  
-5	JM123	asdf	asd	asd			
-6	dz123	asd	asd	asd	Employee	06-01-2022	
-7	fluerce	123	asdasd	asdasdasd	  
-       
-       
-       
-       
+TimeIn	TimeOut	TotalTimeInMinutes	Overtime	
+2022-05-31 18:32:04	2022-05-31 18:32:06	0	32	
+2022-05-31 18:32:07	2022-05-31 18:32:08	0	32	
+2022-05-31 18:32:10	2022-05-31 18:32:11	0	32	
+2022-05-31 18:32:14	2022-05-31 18:32:15	0	32	
+    
+    
+    
+    
+    
+    

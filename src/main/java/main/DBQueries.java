@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class DBQueries {
 	
@@ -65,6 +66,7 @@ public class DBQueries {
 	                   " timeOut text, " +
 	                   " timeDiff INTEGER, " +
 	                   " timeOT INTEGER, " + 
+                           " timeUT INTEGER, " + 
 	                   " PRIMARY KEY ( timeID ))"; 
 	         stmt.executeUpdate(sql);
 	         
@@ -77,6 +79,7 @@ public class DBQueries {
 	                   " timeHistOut text, " + 
 	                   " timeHistDiff INTEGER, " +
 	                   " timeHistOT INTEGER, " + 
+                           " timeHistUT INTEGER, " + 
 	                   " PRIMARY KEY ( timeHistID ))"; 
 	         stmt.executeUpdate(sql);
                  
@@ -205,7 +208,17 @@ public class DBQueries {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.executeUpdate(); 
             } catch (SQLException e) {
-                e.printStackTrace();
+               e.printStackTrace();  
+            }
+        }
+        
+        public void updateEmp(Connection conn, String table, String set, String where){
+            String sql = "UPDATE " + table + " SET " + set + " WHERE " + where;
+            try {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.executeUpdate(); 
+            } catch (SQLException e) {
+               JOptionPane.showMessageDialog(null, "Please enter correct formats", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         }
         
@@ -250,13 +263,14 @@ public class DBQueries {
       
 	protected void insertTimeOut(Connection conn, int ID) {
 		String sql = "UPDATE TimeTable SET timeOut = datetime('now', 'localtime') WHERE userID = " + ID;
-		String sql2 = "UPDATE TimeTable SET timeDiff = ?, timeOT = ? WHERE userID = " + ID;
+		String sql2 = "UPDATE TimeTable SET timeDiff = ?, timeOT = ?, timeUT = ? WHERE userID = " + ID;
 		try {
                     Statement stmt = conn.createStatement();
                     stmt.executeUpdate(sql);
                     PreparedStatement pstmt = conn.prepareStatement(sql2);
                     pstmt.setString(1, String.valueOf(getTimeDiff(conn, ID)));
                     pstmt.setString(2, String.valueOf(getOT(conn, ID)));
+                    pstmt.setString(3, String.valueOf(getUT(conn, ID)));
                     pstmt.executeUpdate();
 
 		}catch (SQLException e) {
@@ -265,8 +279,8 @@ public class DBQueries {
 	}
 	
 	protected void transferToTimeHistory (Connection conn, int ID) {
-		String sql = "INSERT INTO TimeHistoryTable(userID, userIn, userOut, timeHistIn, timeHistOut, timeHistDiff, timeHistOT) VALUES (?,?,?,?,?,?,?)";
-                ResultSet rs = getRow(conn, "userID, userIn, userOut, timeIn, timeOut, timeDiff, timeOT", "TimeTable", "userID = " + ID);
+		String sql = "INSERT INTO TimeHistoryTable(userID, userIn, userOut, timeHistIn, timeHistOut, timeHistDiff, timeHistOT, timeHistUT) VALUES (?,?,?,?,?,?,?,?)";
+                ResultSet rs = getRow(conn, "userID, userIn, userOut, timeIn, timeOut, timeDiff, timeOT, timeUT", "TimeTable", "userID = " + ID);
                 String sql2 = "DELETE FROM TimeTable WHERE userID = " + ID;
 		try {
                     PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -299,6 +313,21 @@ public class DBQueries {
 	
 	protected int getOT(Connection conn, int ID) {
 		String sql = "SELECT ROUND((JULIANDAY(strftime('%H:%M:%S' ,timeOut)) - JULIANDAY(userOut)) * 86400) AS overtime FROM TimeTable WHERE userID = " + ID;
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			double temp = Double.parseDouble(rs.getString("overtime"));
+			if(temp > 0) {
+				return (int) temp / 60; 
+			}
+		}catch (SQLException e) {
+        	e.printStackTrace();
+        }
+		return 0;
+	}
+        
+        protected int getUT(Connection conn, int ID) {
+		String sql = "SELECT ROUND( abs((JULIANDAY(userOut) - JULIANDAY(strftime('%H:%M:%S' ,timeOut)))) * 86400) AS overtime FROM TimeTable WHERE userID = " + ID;
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);

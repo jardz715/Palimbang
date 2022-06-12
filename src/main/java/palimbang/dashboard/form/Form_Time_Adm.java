@@ -1,7 +1,11 @@
 package palimbang.dashboard.form;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -57,6 +61,30 @@ public class Form_Time_Adm extends javax.swing.JPanel {
         jTable.setEnabled(false);
     }
     
+    public void export(JTable table, File file){
+    try
+    {
+      TableModel m = table.getModel();
+        try (FileWriter fw = new FileWriter(file)) {
+            for(int i = 0; i < m.getColumnCount(); i++){
+                fw.write(m.getColumnName(i) + "\t");
+            }
+            fw.write("\n");
+            for(int i=0; i < m.getRowCount(); i++) {
+                for(int j=0; j < m.getColumnCount(); j++) {
+                    if(m.getValueAt(i, j) != null){
+                        fw.write(m.getValueAt(i,j).toString()+"\t");
+                    }else{
+                        fw.write(" ");
+                    }
+                    
+                }
+                fw.write("\n");
+            } }
+    }
+    catch(IOException e){ System.out.println(e); }
+  }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -67,6 +95,7 @@ public class Form_Time_Adm extends javax.swing.JPanel {
         searchButton = new javax.swing.JToggleButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable = new palimbang.dashboard.swing.Table();
+        downloadButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -133,6 +162,14 @@ public class Form_Time_Adm extends javax.swing.JPanel {
             jTable.getColumnModel().getColumn(3).setResizable(false);
         }
 
+        downloadButton.setBackground(new java.awt.Color(153, 153, 153));
+        downloadButton.setText("Download");
+        downloadButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                downloadButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -143,7 +180,9 @@ public class Form_Time_Adm extends javax.swing.JPanel {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 921, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(attendanceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(220, 220, 220)
+                        .addGap(130, 130, 130)
+                        .addComponent(downloadButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(searchLabel)
                         .addGap(18, 18, 18)
                         .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -157,7 +196,8 @@ public class Form_Time_Adm extends javax.swing.JPanel {
                     .addComponent(attendanceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(downloadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
@@ -171,7 +211,7 @@ public class Form_Time_Adm extends javax.swing.JPanel {
         try{
             if(rs.next() != false){
                 String userID = rs.getString("userID");
-                ResultSet rs2 = query.getRow(conn, "timeHistIn as TimeIn, timeHistOut as TimeOut, timeHistDiff as TotalTimeInMinutes, timeHistOT as Overtime", "TimeHistoryTable", "userID =" + userID);
+                ResultSet rs2 = query.getRow(conn, "timeHistIn as 'Time In', timeHistOut as 'Time Out', timeHistDiff as 'Total Time In Minutes', timeHistOT as 'Overtime', timeHistUT as 'Undertime'", "TimeHistoryTable", "userID =" + userID);
                 initTable(rs2);
                 centerTableComponents();
             }else{
@@ -189,9 +229,20 @@ public class Form_Time_Adm extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_searchFieldKeyPressed
 
+    private void downloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadButtonActionPerformed
+        File file = new File("resources\\documents\\Employees.xls");
+        export(jTable, file);
+        try {
+            Desktop.getDesktop().open(file);
+        } catch (IOException ex) {
+            Logger.getLogger(Form_Time_Emp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_downloadButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel attendanceLabel;
+    private javax.swing.JButton downloadButton;
     private javax.swing.JScrollPane jScrollPane2;
     private palimbang.dashboard.swing.Table jTable;
     private javax.swing.JToggleButton searchButton;
