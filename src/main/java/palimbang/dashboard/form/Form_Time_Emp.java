@@ -34,18 +34,19 @@ public class Form_Time_Emp extends javax.swing.JPanel {
         dataTable = new JTable(startTable(getDataFromDB(conn, userid)));
         initTable(getDataFromDB(conn, userid));
         centerTableComponents();
+        dataTable.setEnabled(false);
     }
     
      
     protected ResultSet getDataFromDB(Connection conn, int userID){
         DBQueries query = new DBQueries();
         
-        ResultSet rs = query.getRow(conn, "userIn, userOut", "UserTable", "userID =" + userID);
+        ResultSet rs = query.getRow(conn, "userIn, userOut, userAftIn, userAftOut", "UserTable", "userID =" + userID);
         ResultSet rs2 = query.getRow(conn, "timeIn", "TimeTable", "userID =" + userID);
-        ResultSet rs3 = query.getRow(conn, "timeHistIn as 'Time In', timeHistOut as 'Time Out', timeHistDiff as 'Total Time In Minutes', timeHistOT as 'Overtime', timeHistUT as 'Undertime'", "TimeHistoryTable", "userID =" + userid);
+        ResultSet rs3 = query.getRow(conn, "timeHistIn as 'Time In', timeHistOut as 'Time Out', timeHistDiff as 'Total Time In Minutes', timeHistOT as 'Overtime', timeHistUT as 'Undertime', timeHistType as 'AM/PM'", "TimeHistoryTable", "userID =" + userid);
         try{
-            timeInLabel.setText("Time In: " + rs.getString("userIn"));
-            timeOutLabel.setText("Time Out: " + rs.getString("userOut"));
+            timeInLabel.setText("Time In: " + rs.getString("userIn") + "/" + rs.getString("userAftIn"));
+            timeOutLabel.setText("Time Out: " + rs.getString("userOut") + "/" + rs.getString("userAftOut"));
             if(rs2.next() != false){
                 currentLabel.setText("Current: " + rs2.getString("timeIn"));
             }else{
@@ -190,21 +191,25 @@ public class Form_Time_Emp extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(72, 72, 72)
-                .addComponent(timeInLabel)
-                .addGap(122, 122, 122)
-                .addComponent(timeOutLabel)
-                .addGap(160, 160, 160)
-                .addComponent(currentLabel)
-                .addContainerGap(309, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 871, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jScrollPane2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(timeInLabel)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addComponent(timeOutLabel)
+                        .addGap(69, 69, 69)
+                        .addComponent(currentLabel)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

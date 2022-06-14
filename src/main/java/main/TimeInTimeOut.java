@@ -20,6 +20,8 @@ public class TimeInTimeOut {
                             timeList.add(rs.getString("userID"));
                             timeList.add(rs.getString("userIn"));
                             timeList.add(rs.getString("userOut"));
+                            timeList.add(rs.getString("userAftIn"));
+                            timeList.add(rs.getString("userAftOut"));
                             query.insertTimeIn(conn, timeList);
 
                     } catch (SQLException e) {

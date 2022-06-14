@@ -49,6 +49,8 @@ public class DBQueries {
 	                   " userIsAdmin BOOLEAN, " +
 	                   " userIn text CHECK (userIn IS time(userIn))," +
 	                   " userOut text CHECK (userOut IS time(userOut))," +
+                           " userAftIn text CHECK (userAftIn IS time(userAftIn))," +
+	                   " userAftOut text CHECK (userAftOut IS time(userAftOut))," +
                            " userAdd VARCHAR(255), " +
                            " userStatus VARCHAR(255), " +
                            " userAppDate VARCHAR(255), " + //Placeholder until admin can actually set the date from their dashboard
@@ -62,11 +64,14 @@ public class DBQueries {
 	                   " userID INTEGER, " +
 	                   " userIn text CHECK (userIn IS time(userIn)), " +
 	                   " userOut text CHECK (userOut IS time(userOut)), " +
+                           " userAftIn text CHECK (userAftIn IS time(userAftIn))," +
+	                   " userAftOut text CHECK (userAftOut IS time(userAftOut))," +
 	                   " timeIn text, " +
 	                   " timeOut text, " +
 	                   " timeDiff INTEGER, " +
 	                   " timeOT INTEGER, " + 
                            " timeUT INTEGER, " + 
+                           " timeType text, " +
 	                   " PRIMARY KEY ( timeID ))"; 
 	         stmt.executeUpdate(sql);
 	         
@@ -75,11 +80,14 @@ public class DBQueries {
 	                   " userID INTEGER, " +
 	                   " userIn text CHECK (userIn IS time(userIn)), " +
 	                   " userOut text CHECK (userOut IS time(userOut)), " +
+                          " userAftIn text CHECK (userAftIn IS time(userAftIn))," +
+	                   " userAftOut text CHECK (userAftOut IS time(userAftOut))," +
 	                   " timeHistIn text, " +
 	                   " timeHistOut text, " + 
 	                   " timeHistDiff INTEGER, " +
 	                   " timeHistOT INTEGER, " + 
                            " timeHistUT INTEGER, " + 
+                           " timeHistType text, " +
 	                   " PRIMARY KEY ( timeHistID ))"; 
 	         stmt.executeUpdate(sql);
                  
@@ -100,6 +108,9 @@ public class DBQueries {
                            " docValidated BOOLEAN, " +
 	                   " PRIMARY KEY ( docID ))"; 
 	         stmt.executeUpdate(sql);
+                 
+                 sql = "INSERT INTO UserTable VALUES (0,\"admin123\", \"admin123@aer.ph\", \"admin\", \"admin\", \"admin\", 69, 091234567891, null,\"admin123\", 1, null, null, null, null, null, null, null, null, null)";
+                 stmt.executeUpdate(sql);     
 	         
 	      } catch (SQLException e) {
 	         e.printStackTrace();
@@ -120,7 +131,7 @@ public class DBQueries {
         
 	// prior to be changed, just a quick attempt. must hash password
 	protected void registerUser(Connection conn, List<String> list) {
-		String sql = "INSERT INTO UserTable(username, userPass, userFirstN, userMiddleN, userLastN, userAge, userEmail, userContact, userGender, userIsAdmin, userIn, userOut) VALUES(?,?,?,?,?,?,?,?,?,0,'09:00:00','18:00:00')";
+		String sql = "INSERT INTO UserTable(username, userPass, userFirstN, userMiddleN, userLastN, userAge, userEmail, userContact, userGender, userIsAdmin, userIn, userOut, userAftIn, userAftOut) VALUES(?,?,?,?,?,?,?,?,?,0,'08:00:00','12:00:00','13:00:00','17:00:00')";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
             for (int i = 0; i < list.size(); i++) {
@@ -129,6 +140,7 @@ public class DBQueries {
             pstmt.executeUpdate();
         } catch (SQLException e) {
         	System.out.println("If you see this, wrong format on time in or time out. but on swing easy fix");
+                e.printStackTrace();
         }
 	}
 	
@@ -222,17 +234,24 @@ public class DBQueries {
             }
         }
         
-        protected void insertTimeIn(Connection conn, List<String> list) {
-		String sql = "INSERT INTO TimeTable (userID, timeIn, userIn, userOut) VALUES(?, datetime('now', 'localtime'),?,?)";
-		try {
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-            for (int i = 0; i < list.size(); i++) {
-            	pstmt.setString(i+1, list.get(i));
-			}
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-        	e.printStackTrace();
-        }
+        protected void insertTimeIn(Connection conn, List<String> list){
+            String sql;
+            ResultSet rs = getRow(conn, "timeHistType", "TimeHistoryTable", "userID = " + list.get(0) + " ORDER BY timeHistID DESC");
+            try {
+                if(rs.next() == false || rs.getString("timeHistType").equals("Afternoon")){
+                    sql = "INSERT INTO TimeTable (userID, timeIn, userIn, userOut, userAftIn, userAftOut, timeType) VALUES(?, datetime('now', 'localtime'),?,?,?,?,'Morning')";
+                }else{
+                    sql = "INSERT INTO TimeTable (userID, timeIn, userIn, userOut, userAftIn, userAftOut, timeType) VALUES(?, datetime('now', 'localtime'),?,?,?,?,'Afternoon')";
+                }
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                for (int i = 0; i < list.size(); i++) {
+                    pstmt.setString(i+1, list.get(i));
+		}
+                pstmt.executeUpdate();
+
+            } catch (SQLException ex) {
+                Logger.getLogger(DBQueries.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
         
         public void insertDocTemplate(Connection conn, List<String> list) {
@@ -261,7 +280,7 @@ public class DBQueries {
             }
 	}
       
-	protected void insertTimeOut(Connection conn, int ID) {
+	protected void insertTimeOut(Connection conn, int ID) { 
 		String sql = "UPDATE TimeTable SET timeOut = datetime('now', 'localtime') WHERE userID = " + ID;
 		String sql2 = "UPDATE TimeTable SET timeDiff = ?, timeOT = ?, timeUT = ? WHERE userID = " + ID;
 		try {
@@ -279,8 +298,8 @@ public class DBQueries {
 	}
 	
 	protected void transferToTimeHistory (Connection conn, int ID) {
-		String sql = "INSERT INTO TimeHistoryTable(userID, userIn, userOut, timeHistIn, timeHistOut, timeHistDiff, timeHistOT, timeHistUT) VALUES (?,?,?,?,?,?,?,?)";
-                ResultSet rs = getRow(conn, "userID, userIn, userOut, timeIn, timeOut, timeDiff, timeOT, timeUT", "TimeTable", "userID = " + ID);
+		String sql = "INSERT INTO TimeHistoryTable(userID, userIn, userOut, userAftIn, userAftOut, timeHistIn, timeHistOut, timeHistDiff, timeHistOT, timeHistUT, timeHistType) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                ResultSet rs = getRow(conn, "userID, userIn, userOut, userAftIn, userAftOut, timeIn, timeOut, timeDiff, timeOT, timeUT, timeType", "TimeTable", "userID = " + ID);
                 String sql2 = "DELETE FROM TimeTable WHERE userID = " + ID;
 		try {
                     PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -299,47 +318,58 @@ public class DBQueries {
 	
 	//calculates minutes
 	protected int getTimeDiff(Connection conn, int ID) {
-		String sql = "SELECT ROUND((JULIANDAY(timeOut) - JULIANDAY(timeIn)) * 86400) AS difference FROM TimeTable WHERE userID = " + ID;
-		try {
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-			double temp = Double.parseDouble(rs.getString("difference"));
-			return (int) temp / 60;
-		}catch (SQLException e) {
-        	e.printStackTrace();
+            try {
+                String sql = "SELECT ROUND((JULIANDAY(timeOut) - JULIANDAY(timeIn)) * 86400) AS difference FROM TimeTable WHERE userID = " + ID;
+                    Statement stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(sql);
+                    double temp = Double.parseDouble(rs.getString("difference"));
+                    return (int) temp / 60;
+            }catch (SQLException e) {
+            e.printStackTrace();
         }
 		return 0;
 	}
 	
 	protected int getOT(Connection conn, int ID) {
-		String sql = "SELECT ROUND((JULIANDAY(strftime('%H:%M:%S' ,timeOut)) - JULIANDAY(userOut)) * 86400) AS overtime FROM TimeTable WHERE userID = " + ID;
-		try {
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-			double temp = Double.parseDouble(rs.getString("overtime"));
-			if(temp > 0) {
-				return (int) temp / 60; 
-			}
-		}catch (SQLException e) {
-        	e.printStackTrace();
+            String sql;
+            ResultSet rs = getRow(conn, "timeType", "TimeTable", "userID = " + ID);
+            try {
+                if(rs.next() == false || rs.getString("timeType").equals("Morning")){
+                    sql = "SELECT ROUND((JULIANDAY(strftime('%H:%M:%S' ,timeOut)) - JULIANDAY(userOut)) * 86400) AS overtime FROM TimeTable WHERE userID = " + ID;
+                }else{
+                    sql = "SELECT ROUND((JULIANDAY(strftime('%H:%M:%S' ,timeOut)) - JULIANDAY(userAftOut)) * 86400) AS overtime FROM TimeTable WHERE userID = " + ID;
+                }
+                Statement stmt = conn.createStatement();
+		ResultSet rs2 = stmt.executeQuery(sql);
+                double temp = Double.parseDouble(rs2.getString("overtime"));
+                if(temp > 0) {
+                        return (int) temp / 60; 
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+            return 0;
         }
-		return 0;
-	}
-        
         protected int getUT(Connection conn, int ID) {
-		String sql = "SELECT ROUND( abs((JULIANDAY(userOut) - JULIANDAY(strftime('%H:%M:%S' ,timeOut)))) * 86400) AS overtime FROM TimeTable WHERE userID = " + ID;
-		try {
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-			double temp = Double.parseDouble(rs.getString("overtime"));
-			if(temp > 0) {
-				return (int) temp / 60; 
-			}
-		}catch (SQLException e) {
-        	e.printStackTrace();
+            String sql;
+            ResultSet rs = getRow(conn, "timeType", "TimeTable", "userID = " + ID);
+            try {
+                if(rs.next() == false || rs.getString("timeType").equals("Morning"))
+                    sql = "SELECT ROUND( abs((JULIANDAY(userOut) - JULIANDAY(strftime('%H:%M:%S' ,timeOut)))) * 86400) AS overtime FROM TimeTable WHERE userID = " + ID;
+                else
+                    sql = "SELECT ROUND( abs((JULIANDAY(userAftOut) - JULIANDAY(strftime('%H:%M:%S' ,timeOut)))) * 86400) AS overtime FROM TimeTable WHERE userID = " + ID;
+                Statement stmt = conn.createStatement();
+                ResultSet rs2 = stmt.executeQuery(sql);
+                double temp = Double.parseDouble(rs2.getString("overtime"));
+                if(temp > 0) {
+                        return (int) temp / 60; 
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+            return 0;
         }
-		return 0;
-	}
+		
         
         public boolean isIDTimedIn(Connection conn, int ID) {
 		ResultSet rs = getRow(conn, "userID", "TimeTable", ID + " = userID" );

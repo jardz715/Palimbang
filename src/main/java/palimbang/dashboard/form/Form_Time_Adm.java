@@ -211,7 +211,7 @@ public class Form_Time_Adm extends javax.swing.JPanel {
         try{
             if(rs.next() != false){
                 String userID = rs.getString("userID");
-                ResultSet rs2 = query.getRow(conn, "timeHistIn as 'Time In', timeHistOut as 'Time Out', timeHistDiff as 'Total Time In Minutes', timeHistOT as 'Overtime', timeHistUT as 'Undertime'", "TimeHistoryTable", "userID =" + userID);
+                ResultSet rs2 = query.getRow(conn, "timeHistIn as 'Time In', timeHistOut as 'Time Out', timeHistDiff as 'Total Time In Minutes', timeHistOT as 'Overtime', timeHistUT as 'Undertime', timeHistType as 'AM/PM'", "TimeHistoryTable", "userID =" + userID);
                 initTable(rs2);
                 centerTableComponents();
             }else{
