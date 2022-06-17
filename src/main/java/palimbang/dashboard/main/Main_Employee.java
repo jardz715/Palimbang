@@ -3,7 +3,9 @@ package palimbang.dashboard.main;
 import palimbang.dashboard.event.EventMenuSelected;
 import java.awt.Color;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
@@ -21,10 +23,11 @@ public class Main_Employee extends javax.swing.JFrame {
     int userid;
     Connection conn;
     
-    public Main_Employee(Connection temp, int ID){
+    public Main_Employee(Connection temp, int ID) throws SQLException{
         userid = ID;
         conn = temp;
         initComponents();
+        checkifTimeOutForgot();
         setBackground(new Color(0,0,0,0));
         jFrame1.setLocationRelativeTo(null);
         menu_Employee.initMoving(Main_Employee.this);
@@ -89,6 +92,16 @@ public class Main_Employee extends javax.swing.JFrame {
         mainPanel.repaint();
         mainPanel.revalidate();
     }
+    
+    private void checkifTimeOutForgot() throws SQLException{
+        DBQueries query = new DBQueries();
+        ResultSet rs = query.getRow(conn, "*", "TimeTable", "timeIn < date('now', 'localtime', 'start of day') AND userID = " + userid);
+        if(rs.next() != false){
+            TimeInTimeOut t = new TimeInTimeOut();   
+            t.forceTimeOut(conn, userid);
+        }
+    }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -229,19 +242,59 @@ public class Main_Employee extends javax.swing.JFrame {
 
     private void timeInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timeInActionPerformed
         DBQueries query = new DBQueries();
-        if(!query.isIDTimedIn(conn, userid)){
-            int response = JOptionPane.showConfirmDialog(rootPane,
-            "Are you sure you want to time in now?",
-            "",
-            JOptionPane.OK_CANCEL_OPTION,
-            JOptionPane.QUESTION_MESSAGE);
-            if(response == 0){
-                TimeInTimeOut t = new TimeInTimeOut();  
-                t.timeIn(conn, userid);
-                timeIn.setSelected(true);
-                TimeIn = true;
+        ResultSet rs = query.getRow(conn, "*", "TimeHistoryTable", "timeHistIn >= date('now', 'localtime', 'start of day') AND userID = " + userid + " AND timeHistType = 'Morning' ORDER BY timeHistID DESC");
+        try {
+            if(!query.isTimeWithinDay(conn, userid)){
+                if(rs.next() == false){
+                    if(!query.isIDTimedIn(conn, userid)){
+                        String[] options = new String[] {"Morning", "Afternoon", "Close"};
+                        int choice = JOptionPane.showOptionDialog(null, "What Schedule would you like to time-in?", "Time-In", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[2]);
+                        if(choice == 0){
+                            int response = JOptionPane.showConfirmDialog(rootPane,
+                            "Are you sure you want to time in now?",
+                            "Confirm?",
+                            JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE);
+                            if(response == 0){
+                                TimeInTimeOut t = new TimeInTimeOut();  
+                                t.timeIn(conn, userid, "Morning");
+                                timeIn.setSelected(true);
+                                TimeIn = true;
+                            }
+                        }else if(choice == 1){
+                            int response = JOptionPane.showConfirmDialog(rootPane,
+                            "Are you sure you want to time in now?",
+                            "Confirm?",
+                            JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE);
+                            if(response == 0){
+                                TimeInTimeOut t = new TimeInTimeOut();  
+                                t.timeIn(conn, userid, "Afternoon");
+                                timeIn.setSelected(true);
+                                TimeIn = true;
+                            }
+                        }
+                    }
+                }else{
+                    int response = JOptionPane.showConfirmDialog(rootPane,
+                            "Are you sure you want to time in now?",
+                            "Confirm?",
+                            JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE);
+                            if(response == 0){
+                                TimeInTimeOut t = new TimeInTimeOut();  
+                                t.timeIn(conn, userid, "Afternoon");
+                                timeIn.setSelected(true);
+                                TimeIn = true;
+                            }
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "You logged in already today.", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
+        } catch (SQLException | ParseException ex) {
+            Logger.getLogger(Main_Employee.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         
     }//GEN-LAST:event_timeInActionPerformed
 

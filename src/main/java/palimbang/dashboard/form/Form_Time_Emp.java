@@ -1,13 +1,14 @@
 package palimbang.dashboard.form;
 
-import java.awt.Desktop;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +18,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import main.DBQueries;
+import main.ExcelDTR;
 import net.proteanit.sql.DbUtils;
 
 public class Form_Time_Emp extends javax.swing.JPanel {
@@ -118,6 +120,8 @@ public class Form_Time_Emp extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable = new palimbang.dashboard.swing.Table();
         refreshButton = new javax.swing.JToggleButton();
+        dateBox = new javax.swing.JComboBox<>();
+        yearChooser = new com.toedter.calendar.JYearChooser();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -187,36 +191,46 @@ public class Form_Time_Emp extends javax.swing.JPanel {
             }
         });
 
+        dateBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" }));
+        dateBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dateBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 871, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(timeInLabel)))
+                .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(timeInLabel)
                         .addGap(101, 101, 101)
                         .addComponent(timeOutLabel)
                         .addGap(69, 69, 69)
-                        .addComponent(currentLabel)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(currentLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(dateBox, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(yearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(395, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(yearChooser, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(printButton, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(refreshButton, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+                    .addComponent(dateBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(timeInLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -228,11 +242,10 @@ public class Form_Time_Emp extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
-        File file = new File("resources\\documents\\DTR_" + userid + ".xls");
-        export(dataTable, file);
+        ExcelDTR dtr = new ExcelDTR();
         try {
-            Desktop.getDesktop().open(file);
-        } catch (IOException ex) {
+            dtr.ExcelDTR(conn, userid, Integer.toString(dateBox.getSelectedIndex()+1), dateBox.getSelectedItem().toString(), yearChooser.getYear());
+        } catch (IOException | SQLException | ParseException ex) {
             Logger.getLogger(Form_Time_Emp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_printButtonActionPerformed
@@ -246,6 +259,10 @@ public class Form_Time_Emp extends javax.swing.JPanel {
         }
         centerTableComponents();
     }//GEN-LAST:event_refreshButtonActionPerformed
+
+    private void dateBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dateBoxActionPerformed
     
     public void export(JTable table, File file){
     try
@@ -273,11 +290,13 @@ public class Form_Time_Emp extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel currentLabel;
+    private javax.swing.JComboBox<String> dateBox;
     private javax.swing.JScrollPane jScrollPane2;
     private palimbang.dashboard.swing.Table jTable;
     private javax.swing.JToggleButton printButton;
     private javax.swing.JToggleButton refreshButton;
     private javax.swing.JLabel timeInLabel;
     private javax.swing.JLabel timeOutLabel;
+    private com.toedter.calendar.JYearChooser yearChooser;
     // End of variables declaration//GEN-END:variables
 }

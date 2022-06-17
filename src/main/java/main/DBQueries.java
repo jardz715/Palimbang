@@ -6,7 +6,10 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,7 +83,7 @@ public class DBQueries {
 	                   " userID INTEGER, " +
 	                   " userIn text CHECK (userIn IS time(userIn)), " +
 	                   " userOut text CHECK (userOut IS time(userOut)), " +
-                          " userAftIn text CHECK (userAftIn IS time(userAftIn))," +
+                           " userAftIn text CHECK (userAftIn IS time(userAftIn))," +
 	                   " userAftOut text CHECK (userAftOut IS time(userAftOut))," +
 	                   " timeHistIn text, " +
 	                   " timeHistOut text, " + 
@@ -109,7 +112,7 @@ public class DBQueries {
 	                   " PRIMARY KEY ( docID ))"; 
 	         stmt.executeUpdate(sql);
                  
-                 sql = "INSERT INTO UserTable VALUES (0,\"admin123\", \"admin123@aer.ph\", \"admin\", \"admin\", \"admin\", 69, 091234567891, null,\"admin123\", 1, null, null, null, null, null, null, null, null, null)";
+                 sql = "INSERT INTO UserTable VALUES (0,'admin123', 'admin123@aer.ph', 'admin', 'admin', 'admin', 69, 091234567891, null,'admin123', 1, null, null, null, null, null, null, null, null, null)";
                  stmt.executeUpdate(sql);     
 	         
 	      } catch (SQLException e) {
@@ -234,11 +237,28 @@ public class DBQueries {
             }
         }
         
-        protected void insertTimeIn(Connection conn, List<String> list){
+        public boolean isTimeWithinDay(Connection conn, int id) throws ParseException{
+            ResultSet rs = getRow(conn, "*", "TimeHistoryTable", "timeHistIn >= date('now', 'localtime', 'start of day') AND userID = " + id + " ORDER BY timeHistID DESC");
+            try{
+                if(rs.next() != false){
+                    if(rs.getString("timeHistType").equals("Morning")){
+                        return false;
+                    }else{
+                        return true;
+                    }
+                }else{
+                    return false;
+                }
+            }catch (SQLException ex) {
+                Logger.getLogger(DBQueries.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return false;
+        }
+        
+        protected void insertTimeIn(Connection conn, List<String> list, String time){
             String sql;
-            ResultSet rs = getRow(conn, "timeHistType", "TimeHistoryTable", "userID = " + list.get(0) + " ORDER BY timeHistID DESC");
             try {
-                if(rs.next() == false || rs.getString("timeHistType").equals("Afternoon")){
+                if(time.equals("Morning")){
                     sql = "INSERT INTO TimeTable (userID, timeIn, userIn, userOut, userAftIn, userAftOut, timeType) VALUES(?, datetime('now', 'localtime'),?,?,?,?,'Morning')";
                 }else{
                     sql = "INSERT INTO TimeTable (userID, timeIn, userIn, userOut, userAftIn, userAftOut, timeType) VALUES(?, datetime('now', 'localtime'),?,?,?,?,'Afternoon')";
@@ -296,6 +316,23 @@ public class DBQueries {
         	e.printStackTrace();
         }
 	}
+        
+        protected void forceTimeOut(Connection conn, int ID) { 
+		String sql = "UPDATE TimeTable SET timeOut = datetime('now', 'localtime') WHERE userID = " + ID;
+		String sql2 = "UPDATE TimeTable SET timeDiff = ?, timeOT = ?, timeUT = ? WHERE userID = " + ID;
+		try {
+                    Statement stmt = conn.createStatement();
+                    stmt.executeUpdate(sql);
+                    PreparedStatement pstmt = conn.prepareStatement(sql2);
+                    pstmt.setString(1, String.valueOf(getTimeDiff(conn, ID)));
+                    pstmt.setString(2, String.valueOf(0));
+                    pstmt.setString(3, String.valueOf(0));
+                    pstmt.executeUpdate();
+
+		}catch (SQLException e) {
+        	e.printStackTrace();
+        }
+	}
 	
 	protected void transferToTimeHistory (Connection conn, int ID) {
 		String sql = "INSERT INTO TimeHistoryTable(userID, userIn, userOut, userAftIn, userAftOut, timeHistIn, timeHistOut, timeHistDiff, timeHistOT, timeHistUT, timeHistType) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
@@ -332,18 +369,24 @@ public class DBQueries {
 	
 	protected int getOT(Connection conn, int ID) {
             String sql;
-            ResultSet rs = getRow(conn, "timeType", "TimeTable", "userID = " + ID);
+            int compare;
+            ResultSet rs = getRow(conn, "timeType, ROUND((JULIANDAY(userOut) - JULIANDAY(userIn)) * 24 * 60) as userDiff, ROUND((JULIANDAY(userAftOut) - JULIANDAY(userAftIn)) * 24 * 60) as userAftDiff", "TimeTable", "userID = " + ID);
             try {
+                sql = "SELECT ROUND((JULIANDAY(strftime('%H:%M:%S' ,timeOut)) - JULIANDAY(strftime('%H:%M:%S' ,timeIn))) * 24 * 60) AS overtime FROM TimeTable WHERE userID = " + ID;
                 if(rs.next() == false || rs.getString("timeType").equals("Morning")){
-                    sql = "SELECT ROUND((JULIANDAY(strftime('%H:%M:%S' ,timeOut)) - JULIANDAY(userOut)) * 86400) AS overtime FROM TimeTable WHERE userID = " + ID;
+                    compare = rs.getInt("userDiff");
                 }else{
-                    sql = "SELECT ROUND((JULIANDAY(strftime('%H:%M:%S' ,timeOut)) - JULIANDAY(userAftOut)) * 86400) AS overtime FROM TimeTable WHERE userID = " + ID;
+                    compare = rs.getInt("userAftDiff");
                 }
                 Statement stmt = conn.createStatement();
-		ResultSet rs2 = stmt.executeQuery(sql);
-                double temp = Double.parseDouble(rs2.getString("overtime"));
-                if(temp > 0) {
-                        return (int) temp / 60; 
+                ResultSet rs2 = stmt.executeQuery(sql);
+                if(compare < rs2.getInt("overtime")){
+                    int temp = rs2.getInt("overtime") - compare;
+                    if(temp > 0) {
+                            return temp; 
+                    }
+                }else{
+                    return 0;
                 }
             }catch(SQLException e){
                 e.printStackTrace();
@@ -352,17 +395,24 @@ public class DBQueries {
         }
         protected int getUT(Connection conn, int ID) {
             String sql;
-            ResultSet rs = getRow(conn, "timeType", "TimeTable", "userID = " + ID);
+            int compare;
+            ResultSet rs = getRow(conn, "timeType, ROUND((JULIANDAY(userOut) - JULIANDAY(userIn)) * 24 * 60) as userDiff, ROUND((JULIANDAY(userAftOut) - JULIANDAY(userAftIn)) * 24 * 60) as userAftDiff", "TimeTable", "userID = " + ID);
             try {
-                if(rs.next() == false || rs.getString("timeType").equals("Morning"))
-                    sql = "SELECT ROUND( abs((JULIANDAY(userOut) - JULIANDAY(strftime('%H:%M:%S' ,timeOut)))) * 86400) AS overtime FROM TimeTable WHERE userID = " + ID;
-                else
-                    sql = "SELECT ROUND( abs((JULIANDAY(userAftOut) - JULIANDAY(strftime('%H:%M:%S' ,timeOut)))) * 86400) AS overtime FROM TimeTable WHERE userID = " + ID;
+                sql = "SELECT ROUND((JULIANDAY(strftime('%H:%M:%S' ,timeOut)) - JULIANDAY(strftime('%H:%M:%S' ,timeIn))) * 24 * 60) AS undertime FROM TimeTable WHERE userID = " + ID;
+                if(rs.next() == false || rs.getString("timeType").equals("Morning")){
+                    compare = rs.getInt("userDiff");
+                }else{
+                    compare = rs.getInt("userAftDiff");
+                }
                 Statement stmt = conn.createStatement();
                 ResultSet rs2 = stmt.executeQuery(sql);
-                double temp = Double.parseDouble(rs2.getString("overtime"));
-                if(temp > 0) {
-                        return (int) temp / 60; 
+                if(compare > rs2.getInt("undertime")){
+                    int temp = compare - rs2.getInt("undertime");
+                    if(temp > 0) {
+                            return temp; 
+                    }
+                }else{
+                    return 0;
                 }
             }catch(SQLException e){
                 e.printStackTrace();
