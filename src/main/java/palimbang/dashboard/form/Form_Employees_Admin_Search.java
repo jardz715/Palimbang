@@ -67,7 +67,7 @@ public class Form_Employees_Admin_Search extends javax.swing.JPanel {
                                     }
                                 }
                             } else {
-                                    DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+                                    DateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
                                     if(!databaseCheck(dateFormat.format(dateChooser.getDate()), setCategory(comboBox.getSelectedItem().toString()), temp)) {
                                         setText(dateFormat.format(dateChooser.getDate()));
                                         setCategory(comboBox.getSelectedItem().toString());
@@ -157,6 +157,8 @@ public class Form_Employees_Admin_Search extends javax.swing.JPanel {
         });
         add(comboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
         add(textField, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 11, 150, 25));
+
+        dateChooser.setDateFormatString("MMMM dd, yyyy");
         add(dateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 11, 150, 25));
     }// </editor-fold>//GEN-END:initComponents
 
