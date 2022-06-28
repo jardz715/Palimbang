@@ -192,7 +192,9 @@ public class Form_Doc_Emp extends javax.swing.JPanel {
         ResultSet rs2 = query.getRow(conn, "DocTemplateTable.dTemplatePath, DocumentTable.docPath",
                 "DocTemplateTable INNER JOIN DocumentTable ON DocTemplateTable.dTemplateID = DocumentTable.dtemplateid",
                 "DocumentTable.docID = " + rs.getString("docID"));
-        FileUtils.copyFile(new File(rs2.getString("dTemplatePath")), new File(rs2.getString("docPath")));
+        File file = new File (rs2.getString("docPath"));
+        file.setWritable(true);
+        FileUtils.copyFile(new File(rs2.getString("dTemplatePath")), file);
         JOptionPane.showMessageDialog(null, "Document Successfully Reset.", "Confirm", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Form_Doc_Emp.class.getName()).log(Level.SEVERE, null, ex);

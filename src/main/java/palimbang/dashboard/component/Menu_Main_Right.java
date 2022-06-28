@@ -349,6 +349,11 @@ public class Menu_Main_Right extends javax.swing.JPanel {
             JOptionPane.QUESTION_MESSAGE);
         if(response == 0)
         {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Menu_Main_Right.class.getName()).log(Level.SEVERE, null, ex);
+            }
             System.exit(0);
         }
     }//GEN-LAST:event_jLabelCloseMouseClicked
