@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import main.DBQueries;
 import main.Main;
+import main.forgotPass;
 import main.regEmployee;
 import palimbang.dashboard.main.Main_Admin;
 import palimbang.dashboard.main.Main_Employee;
@@ -138,6 +139,7 @@ public class Menu_Main_Right extends javax.swing.JPanel {
         loginLabel = new javax.swing.JLabel();
         jLabelMini = new javax.swing.JLabel();
         jLabelClose = new javax.swing.JLabel();
+        fPassLabel = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(516, 516));
 
@@ -216,32 +218,49 @@ public class Menu_Main_Right extends javax.swing.JPanel {
             }
         });
 
+        fPassLabel.setFont(new java.awt.Font("Nirmala UI", 0, 10)); // NOI18N
+        fPassLabel.setForeground(new java.awt.Color(7, 164, 121));
+        fPassLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fPassLabel.setText("Forgot Password?");
+        fPassLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        fPassLabel.setFocusTraversalPolicyProvider(true);
+        fPassLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fPassLabelMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelMovingLayout = new javax.swing.GroupLayout(panelMoving);
         panelMoving.setLayout(panelMovingLayout);
         panelMovingLayout.setHorizontalGroup(
             panelMovingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelMovingLayout.createSequentialGroup()
-                .addGap(102, 102, 102)
-                .addGroup(panelMovingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelMovingLayout.createSequentialGroup()
-                        .addComponent(regLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(40, 40, 40))
-                    .addComponent(unameField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMovingLayout.createSequentialGroup()
-                        .addGap(183, 183, 183)
-                        .addComponent(loginLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(passField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelMovingLayout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(signinLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(79, 79, 79)))
-                .addGap(102, 102, 102))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMovingLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabelMini)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelClose)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMovingLayout.createSequentialGroup()
+                .addGroup(panelMovingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelMovingLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(fPassLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelMovingLayout.createSequentialGroup()
+                        .addGap(102, 102, 102)
+                        .addGroup(panelMovingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelMovingLayout.createSequentialGroup()
+                                .addComponent(regLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(40, 40, 40))
+                            .addComponent(unameField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMovingLayout.createSequentialGroup()
+                                .addGap(183, 183, 183)
+                                .addComponent(loginLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(passField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(panelMovingLayout.createSequentialGroup()
+                                .addGap(76, 76, 76)
+                                .addComponent(signinLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(79, 79, 79)))))
+                .addGap(102, 102, 102))
         );
         panelMovingLayout.setVerticalGroup(
             panelMovingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,15 +270,17 @@ public class Menu_Main_Right extends javax.swing.JPanel {
                     .addComponent(jLabelClose, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelMini, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(74, 74, 74)
-                .addComponent(signinLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(signinLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(unameField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(unameField, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
+                .addComponent(fPassLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(passField, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(passField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(regLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(loginLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                .addComponent(regLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                .addGap(61, 61, 61)
+                .addComponent(loginLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
                 .addGap(109, 109, 109))
         );
 
@@ -372,8 +393,21 @@ public class Menu_Main_Right extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_passFieldKeyPressed
 
+    private void fPassLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fPassLabelMouseClicked
+       try {
+            // TODO add your handling code here:
+            mainFrame.dispose();
+            forgotPass fp = new forgotPass();
+            fp.setVisible(true);
+            fp.setLocationRelativeTo(null);
+        } catch (SQLException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_fPassLabelMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel fPassLabel;
     private javax.swing.JLabel jLabelClose;
     private javax.swing.JLabel jLabelMini;
     private javax.swing.JLabel loginLabel;
