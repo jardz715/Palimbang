@@ -235,7 +235,7 @@ public class regEmployee extends javax.swing.JFrame {
                         .addComponent(admTitleLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(admSubLabel)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -336,6 +336,7 @@ public class regEmployee extends javax.swing.JFrame {
         registLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         registLabel.setIcon(new javax.swing.ImageIcon("resources/login.png"));
         registLabel.setText("Register");
+        registLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         registLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 registLabelMouseClicked(evt);
@@ -346,6 +347,7 @@ public class regEmployee extends javax.swing.JFrame {
         backLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         backLabel.setIcon(new javax.swing.ImageIcon("resources/back.png"));
         backLabel.setText("Go Back");
+        backLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         backLabel.setPreferredSize(new java.awt.Dimension(91, 40));
         backLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -414,20 +416,17 @@ public class regEmployee extends javax.swing.JFrame {
                             .addComponent(jLabel13))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(lNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(119, 119, 119))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(maleBox)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(femaleBox))
-                                    .addComponent(numField)
-                                    .addComponent(emailField2)
-                                    .addComponent(emailField)
-                                    .addComponent(bday, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE))
-                                .addGap(21, 21, 21))))
+                            .addComponent(lNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(maleBox)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(femaleBox))
+                                .addComponent(numField)
+                                .addComponent(emailField2)
+                                .addComponent(emailField)
+                                .addComponent(bday, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)))
+                        .addGap(119, 119, 119))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(registLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
