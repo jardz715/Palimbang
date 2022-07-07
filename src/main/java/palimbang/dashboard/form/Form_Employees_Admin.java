@@ -297,8 +297,8 @@ public class Form_Employees_Admin extends javax.swing.JPanel {
                     JTextField field2 = new JTextField(pass);
                     JTextField field3 = new JTextField(email);
                     JTextField field4 = new JTextField(fName);
-                    JTextField field5 = new JTextField(lName);
-                    JTextField field6 = new JTextField(mName);
+                    JTextField field5 = new JTextField(mName);
+                    JTextField field6 = new JTextField(lName);
                     JTextField field7 = new JTextField(pos);
                     JTextField field8 = new JTextField(timeIn);
                     JTextField field9 = new JTextField(timeOut);
