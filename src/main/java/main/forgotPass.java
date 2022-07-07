@@ -158,7 +158,7 @@ public class forgotPass extends javax.swing.JFrame {
                         .addComponent(admTitleLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(admSubLabel)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -192,6 +192,7 @@ public class forgotPass extends javax.swing.JFrame {
         registLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         registLabel.setIcon(new javax.swing.ImageIcon("resources/login.png"));
         registLabel.setText("Reset Password");
+        registLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         registLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 registLabelMouseClicked(evt);
@@ -202,6 +203,7 @@ public class forgotPass extends javax.swing.JFrame {
         backLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         backLabel.setIcon(new javax.swing.ImageIcon("resources/back.png"));
         backLabel.setText("Go Back");
+        backLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         backLabel.setPreferredSize(new java.awt.Dimension(91, 40));
         backLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
